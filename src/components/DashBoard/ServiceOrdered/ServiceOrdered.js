@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './ServiceOrdered.css'
-import { Table, Pagination } from 'semantic-ui-react'
-import { Dropdown } from 'react-bootstrap'
+import { Table, Pagination,Dropdown} from 'semantic-ui-react'
 import ReactStars from "react-rating-stars-component"
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector, useDispatch } from 'react-redux'
 import { getServiceClient } from '../../../Redux/actions/serviceactions'
 
@@ -11,21 +9,23 @@ const serviceInitial = [
     {
         Category: "Electricity",
         date: "2021 / 7 / 12",
-        Status: "refused",
+        Status: "Refused",
         index: 1
     }
 ]
 const ServiceOrdered = () => {
+    const service=serviceInitial
+
     const dispatch = useDispatch()
     useEffect(() => { dispatch(getServiceClient()) }, [])
-    const service = useSelector(state => state.serviceReducer.service)
-    if(service=[]){}
+    // const service = useSelector(state => state.serviceReducer.service)
+    // if(service=[]){}
     const user = useSelector(state => state.userReducer.user)
     const color = (el)=>{if(el.Status=='Accepted')return{backgroundColor:'rgb(243, 141, 73)'} 
     if(el.Status=='Refused'||el.Status=='Denied')return {backgroundColor:'rgb(228, 86, 86)'} 
     if(el.Status=='Approved')return {backgroundColor:'rgb(22, 173, 22)' }
     if(el.Status=='On Going')return {backgroundColor:'rgba(235, 231, 23, 0.877)',color:'black' }}
-    const [tabelSlice, settabelSlice] = useState(service.slice(0,4))
+    const [tabelSlice, settabelSlice] = useState(service.slice(0,1))
     const [ping, setPing] = useState(false)
     const handlePaginationChange = (e,page) => {
         console.log(page.activePage)
@@ -57,7 +57,7 @@ const ServiceOrdered = () => {
                                     <Table.Cell>{el.date}</Table.Cell>
                                     <Table.Cell>
                                          {(user.Role=='client')? 
-                                     <Dropdown text={el.Status} style={color(el)} active={true}>
+                                     <Dropdown text={el.Status} style={color(el)}>
                                         <Dropdown.Menu >
                                         <Dropdown.Item  onClick={(e,data)=>{el.Status=data.value;setPing(!ping)}} value='Approved'>Approve</Dropdown.Item>
                                         <Dropdown.Item  onClick={(e,data)=>{el.Status=data.value;setPing(!ping)}} value='Denied'>Deny</Dropdown.Item>
@@ -68,11 +68,12 @@ const ServiceOrdered = () => {
                                             <Dropdown.Item  onClick={(e,data)=>{el.Status=data.value;setPing(!ping)}} value='On Going' >Accept</Dropdown.Item>
                                             <Dropdown.Item  onClick={(e,data)=>{el.Status=data.value;setPing(!ping)}} value='Refused'>Refuse</Dropdown.Item>
                                         </Dropdown.Menu>
-                                        </Dropdown>
-                                        }                       
+                                        </Dropdown>}                       
                                     </Table.Cell>
-                                    <Table.Cell>
-                                        <ReactStars isHalf={true} edit={true} value={el.index} /></Table.Cell>
+                                    <Table.Cell>{(user.Role=='client')? 
+                                        <ReactStars isHalf={true} edit={true} onChange={(e)=>{el.index=e.target.value;setPing(!ping)}} />:
+                                        <ReactStars isHalf={true} edit={false} value={el.index} />}
+                                        </Table.Cell>
                                 </Table.Row>
                             </Table.Body>)
                     })}
