@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { FAIL, LOAD, SERVICE_SUCCESS,FAIL_SERVICE } from '../const'
+import { useSelector } from 'react-redux'
 export const addService=(service)=>async dispatch=>{
     dispatch({type:LOAD})
     try {
@@ -10,31 +11,37 @@ export const addService=(service)=>async dispatch=>{
         dispatch({type:FAIL_SERVICE,payload:error.response.data})
         
     }}
-export const getServiceClient=(id)=>async dispatch=>{
+export const getServiceClient=(id,user)=>async dispatch=>{
     dispatch({type:LOAD})
     try {
-        let result=await axios.get('/service/getservice/client/:id')
+        let result=await axios.get(`/service/getservice/${user}/${id}`)
+        console.log(result)
         dispatch({type:SERVICE_SUCCESS,payload:result.data})
     } catch (error) {
         console.log(error)
         dispatch({type:FAIL,payload:error.response})
     }
 }
-export const getServiceTechnician=(id)=>async dispatch=>{
+// export const getServiceTechnician=(id)=>async dispatch=>{
+//     dispatch({type:LOAD})
+//     try {
+//         let result=await axios.get(`/service/getservice/technician/${id}`)
+        
+//         dispatch({type:SERVICE_SUCCESS,payload:result.data})
+//     } catch (error) {
+//         console.log(error)
+//         dispatch({type:FAIL,payload:error.response})
+//     }
+// }
+export const updateService=(id,user,update)=> async dispatch=>{
+    
     dispatch({type:LOAD})
     try {
-        let result=await axios.get('/service/getservice/technician/:id')
-        dispatch({type:SERVICE_SUCCESS,payload:result.data})
-    } catch (error) {
-        console.log(error)
-        dispatch({type:FAIL,payload:error.response})
-    }
-}
-export const updateService=(id)=> async dispatch=>{
-    dispatch({type:LOAD})
-    try {
-        let result=await axios.get(`/service/updateservice/${id}`)
-        dispatch({type:SERVICE_SUCCESS,payload:result.data})
+
+        let result=await axios.put(`/service/updateservice/${id}`,update)
+        console.log(id)
+        // dispatch({type:SERVICE_SUCCESS})
+        dispatch(getServiceClient(user._id,user.Role))
     } catch (error) {
         console.log(error)
         dispatch({type:FAIL,payload:error.response})

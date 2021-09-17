@@ -7,8 +7,8 @@ const ServiceSchema= new mongoose.Schema({
     description:{type:String,required:true},
     date :{type:String,required:false},
     //ps:{type:array,required:false}
-    Status: {type:String,required:false},
-    UserRating: {type:Number,required:false},
+    Status: {type:String,required:false,default:"waiting"},
+    Rating: {type:Number,required:false},
     UserScoreGained: {type:Number,required:false},
     TechnicienRating: {type:Number,required:false},
     TechnicienScoreGained: {type:Number,required:false},

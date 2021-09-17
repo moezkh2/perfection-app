@@ -19,8 +19,8 @@ exports.updateRoles=()=>[
     check("phone","Phone is required").notEmpty()
 ]
 exports.serviceRules=()=>[
-    check("description","description is required").notEmpty()
-]
+/*     check("description","description is required").notEmpty()
+ */]
 exports.validation = (req,res,next)=>{
     const errors= validationResult(req)
     if(!errors.isEmpty()){
