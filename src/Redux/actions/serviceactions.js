@@ -1,16 +1,7 @@
 import axios from 'axios'
 import { FAIL, LOAD, SERVICE_SUCCESS,FAIL_SERVICE } from '../const'
 import { useSelector } from 'react-redux'
-export const addService=(service)=>async dispatch=>{
-    dispatch({type:LOAD})
-    try {
-        let result=await axios.post('/service/addservice',service)
-        dispatch({type:SERVICE_SUCCESS,payload: result.data})
-    } catch (error) {
-        console.log(error)
-        dispatch({type:FAIL_SERVICE,payload:error.response.data})
-        
-    }}
+
 export const getServiceClient=(id,user)=>async dispatch=>{
     dispatch({type:LOAD})
     try {
@@ -19,9 +10,20 @@ export const getServiceClient=(id,user)=>async dispatch=>{
         dispatch({type:SERVICE_SUCCESS,payload:result.data})
     } catch (error) {
         console.log(error)
-        dispatch({type:FAIL,payload:error.response})
+        dispatch({type:FAIL,payload:error.response.data})
     }
 }
+export const addService=(service,user)=>async dispatch=>{
+    dispatch({type:LOAD})
+    try {
+        let result=await axios.post('/service/addservice',service)
+        console.log(result)
+        dispatch(getServiceClient(user._id,user.Role))
+    } catch (error) {
+        console.log(error)
+        dispatch({type:FAIL_SERVICE,payload:error.response.data})
+        
+    }}
 // export const getServiceTechnician=(id)=>async dispatch=>{
 //     dispatch({type:LOAD})
 //     try {
@@ -44,6 +46,6 @@ export const updateService=(id,user,update)=> async dispatch=>{
         dispatch(getServiceClient(user._id,user.Role))
     } catch (error) {
         console.log(error)
-        dispatch({type:FAIL,payload:error.response})
+        dispatch({type:FAIL,payload:error.response.data})
     }
 }

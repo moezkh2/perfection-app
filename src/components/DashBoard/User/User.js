@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./User.css";
 import 'semantic-ui-css/semantic.min.css'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, Form, Input } from 'semantic-ui-react'
+import { Button, Form, Input,Dimmer,Loader } from 'semantic-ui-react'
 import { getUser, updateUser } from '../../../Redux/actions/useractions'
-function User(props) {
+function User() {
   let user = useSelector(state => state.userReducer.user);
   let errors = useSelector(state => state.userReducer.errors)
-  console.log(errors)
   // const test=(e)=>{if(msg!=={}) {if(msg.name){return msg.name}} else return false  }
   const dispatch = useDispatch()
   const [useredit, setuseredit] = useState(user);
@@ -199,7 +198,13 @@ function User(props) {
       </div>
     );
   } else {
-    return <h1>Oooops 404 error</h1>
+    return (<div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
+
+            <Dimmer active inverted>
+                <Loader size='large'>Loading</Loader>
+            </Dimmer>
+
+        </div >)
   }
 }
 export default User;

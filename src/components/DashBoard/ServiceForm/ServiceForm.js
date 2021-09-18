@@ -6,9 +6,9 @@ import date from 'date-and-time';
 const ServiceForm = ({ match }) => {
     const state = useSelector(state => state.userReducer)
     const datte=()=>{const now = new Date();
-        let DATE= date.format(now, 'YYYY/MM/DD HH:mm:ss');
+        let DATE=   date.format(now, 'YYYY/MM/DD HH:mm:ss');
         console.log(DATE )
-return DATE
+return DATE.toString()
     }
         
     const dispatch = useDispatch()
@@ -17,7 +17,7 @@ return DATE
         Category: Technician[0].Speciality,
         TechnicientId: Technician[0]._id,
         ClientId: state.user._id,
-        date:""
+        date:datte()
     })
     return (
         <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
@@ -79,7 +79,7 @@ return DATE
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
-                            <Button onClick={() => {setservice({ ...service,date:datte()}) ;dispatch(addService(service));console.log(service) }} type='submit'>Submit</Button>
+                            <Button onClick={() => {setservice({ ...service,date:datte()});console.log(service) ;dispatch(addService(service,state.user));console.log(service) }} type='submit'>Submit</Button>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
