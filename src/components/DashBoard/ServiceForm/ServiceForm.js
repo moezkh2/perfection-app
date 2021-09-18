@@ -2,15 +2,22 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Form, Grid, Segment, Button } from 'semantic-ui-react'
 import { addService } from '../../../Redux/actions/serviceactions'
+import date from 'date-and-time';
 const ServiceForm = ({ match }) => {
     const state = useSelector(state => state.userReducer)
-   
+    const datte=()=>{const now = new Date();
+        let DATE= date.format(now, 'YYYY/MM/DD HH:mm:ss');
+        console.log(DATE )
+return DATE
+    }
+        
     const dispatch = useDispatch()
     const [Technician, setTechnician] = useState(state.techlist.filter(el => { return el._id === match.params.technician }))
     const [service, setservice] = useState({
         Category: Technician[0].Speciality,
         TechnicientId: Technician[0]._id,
         ClientId: state.user._id,
+        
     })
     return (
         <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
@@ -72,7 +79,7 @@ const ServiceForm = ({ match }) => {
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
-                            <Button onClick={() => { dispatch(addService(service)) }} type='submit'>Submit</Button>
+                            <Button onClick={() => {setservice({ ...service,date:datte});dispatch(addService(service));console.log(service) }} type='submit'>Submit</Button>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>

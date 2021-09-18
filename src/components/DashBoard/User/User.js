@@ -169,7 +169,7 @@ function User(props) {
                 label='Speciality'
                 options={options}
                 defaultValue={user.Speciality}
-                onChange={(e, value) => { setuseredit({ ...useredit, Speciality: value.value }) }}
+                onChange={(e, value) => { setuseredit({ ...useredit, Speciality:value?.value }) }}
               />
 
             </Form.Group>
@@ -193,7 +193,7 @@ function User(props) {
               />
             </Form.Group>
             <br /><br />
-            <Form.Field ><Button content='Update profile' primary onClick={() => { (!user.Speciality) ? alert('enter speciality') : dispatch(updateUser({ ...useredit, email: user.email })) }} /></Form.Field>
+            <Form.Field ><Button content='Update profile' primary onClick={() => { (!useredit.Speciality) ? alert('enter speciality') : dispatch(updateUser({ ...useredit, email: user.email })) }} /></Form.Field>
           </Form>
         </div>
       </div>

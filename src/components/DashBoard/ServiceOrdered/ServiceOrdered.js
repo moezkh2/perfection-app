@@ -3,7 +3,7 @@ import './ServiceOrdered.css'
 import { Table, Pagination,Dropdown} from 'semantic-ui-react'
 import ReactStars from "react-rating-stars-component"
 import { useSelector, useDispatch } from 'react-redux'
-import { getServiceClient } from '../../../Redux/actions/serviceactions'
+import { getServiceClient,getServiceTechnician, updateService } from '../../../Redux/actions/serviceactions'
 
 const serviceInitial = [
     {
@@ -14,18 +14,18 @@ const serviceInitial = [
     }
 ]
 const ServiceOrdered = () => {
-    const service=serviceInitial
-
     const dispatch = useDispatch()
-    useEffect(() => { dispatch(getServiceClient()) }, [])
-    // const service = useSelector(state => state.serviceReducer.service)
-    // if(service=[]){}
     const user = useSelector(state => state.userReducer.user)
+    useEffect(async() => { await dispatch(getServiceClient(user._id,user.Role)) }, [])
+    const service = useSelector(state => state.serviceReducer.service)
+    /* if(service===[]){} */
     const color = (el)=>{if(el.Status=='Accepted')return{backgroundColor:'rgb(243, 141, 73)'} 
     if(el.Status=='Refused'||el.Status=='Denied')return {backgroundColor:'rgb(228, 86, 86)'} 
     if(el.Status=='Approved')return {backgroundColor:'rgb(22, 173, 22)' }
     if(el.Status=='On Going')return {backgroundColor:'rgba(235, 231, 23, 0.877)',color:'black' }}
-    const [tabelSlice, settabelSlice] = useState(service.slice(0,1))
+    console.log(service)
+    const [tabelSlice, settabelSlice] = useState(service?.slice(0,4))
+    const id_service = useSelector(state => state.serviceReducer.service._id)
     const [ping, setPing] = useState(false)
     const handlePaginationChange = (e,page) => {
         console.log(page.activePage)
@@ -41,7 +41,7 @@ const ServiceOrdered = () => {
                 <Table celled>
                     <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell>Command N°</Table.HeaderCell>
+                            <Table.HeaderCell>Command Id</Table.HeaderCell>
                             <Table.HeaderCell>Category</Table.HeaderCell>
                             <Table.HeaderCell>Date</Table.HeaderCell>
                             <Table.HeaderCell>Status</Table.HeaderCell>
@@ -52,27 +52,27 @@ const ServiceOrdered = () => {
                         return (
                             <Table.Body>
                                 <Table.Row>
-                                    <Table.Cell>{Index + 1}</Table.Cell>
+                                    <Table.Cell>{el._id}</Table.Cell>
                                     <Table.Cell>{el.Category}</Table.Cell>
                                     <Table.Cell>{el.date}</Table.Cell>
                                     <Table.Cell>
                                          {(user.Role=='client')? 
-                                     <Dropdown text={el.Status} style={color(el)}>
+                                     <Dropdown text={el.Status} style={color(el)} active={true}>
+                                        {(el.Status==='waiting'||el.Status==='On Going')?
                                         <Dropdown.Menu >
-                                        <Dropdown.Item  onClick={(e,data)=>{el.Status=data.value;setPing(!ping)}} value='Approved'>Approve</Dropdown.Item>
-                                        <Dropdown.Item  onClick={(e,data)=>{el.Status=data.value;setPing(!ping)}} value='Denied'>Deny</Dropdown.Item>
-                                        </Dropdown.Menu>
+                                        <Dropdown.Item  onClick={(e,data)=>{ dispatch(updateService(el._id,user,{Status:data.value}));el.Status=data.value;setPing(!ping)}} value='Approved'>Approve</Dropdown.Item>
+                                        <Dropdown.Item  onClick={(e,data)=>{dispatch(updateService(el._id,user,{Status:data.value}));el.Status=data.value;setPing(!ping)}} value='Denied'>Deny</Dropdown.Item>
+                                        </Dropdown.Menu>:null}
                                         </Dropdown>:
                                         <Dropdown text={el.Status} style={color(el)}>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item  onClick={(e,data)=>{el.Status=data.value;setPing(!ping)}} value='On Going' >Accept</Dropdown.Item>
-                                            <Dropdown.Item  onClick={(e,data)=>{el.Status=data.value;setPing(!ping)}} value='Refused'>Refuse</Dropdown.Item>
+                                            <Dropdown.Item  onClick={(e,data)=>{dispatch(updateService(el._id,user,{Status:data.value}));el.Status=data.value;setPing(!ping)}} value='On Going' >Accept</Dropdown.Item>
+                                            <Dropdown.Item  onClick={(e,data)=>{dispatch(updateService(el._id,user,{Status:data.value}));el.Status=data.value;setPing(!ping)}} value='Refused'>Refuse</Dropdown.Item>
                                         </Dropdown.Menu>
                                         </Dropdown>}                       
                                     </Table.Cell>
-                                    <Table.Cell>{(user.Role=='client')? 
-                                        <ReactStars isHalf={true} edit={true} onChange={(e)=>{el.index=e.target.value;setPing(!ping)}} />:
-                                        <ReactStars isHalf={true} edit={false} value={el.index} />}
+                                    <Table.Cell>{(user.Role==='client')?<ReactStars isHalf={true} edit={true} value={1} onChange={(value)=>{dispatch(updateService(el._id,user,{Rating:value}));setPing(!ping)}} />:
+                                    <ReactStars isHalf={true} edit={false} value={el.Rating} />}
                                         </Table.Cell>
                                 </Table.Row>
                             </Table.Body>)

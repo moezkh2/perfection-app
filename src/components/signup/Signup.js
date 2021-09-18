@@ -1,19 +1,17 @@
 import React from 'react'
-import { Form } from 'semantic-ui-react'
+import { Dropdown } from 'semantic-ui-react'
 import { useHistory } from 'react-router-dom'
 import 'semantic-ui-css/semantic.min.css'
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import { registerUser } from '../../Redux/actions/useractions'
 import './signup.css'
-const options = [
-  { key: 'c', text: 'Client', value: 'client' },
-  { key: 't', text: 'Technician', value: 'technician' },]
 const Signup = () => {
   let history = useHistory()
   const dispatch = useDispatch()
   const [state, setstate] = useState({ Role: 'client' })
   const [password, setpassword] = useState('')
+ const [role, setrole] = useState('Role')
   return (
     <div className="form-divv" id='login'>
       <form className="fifii">
@@ -37,10 +35,15 @@ const Signup = () => {
             onChange={(e) => setpassword({ [e.target.name]: e.target.value })} />
         </div><br />
         <div>
-          <Form.Select id='Role' options={options} placeholder='Client' onChange={(value) => { setstate({ ...state, Role: value.value }) }}
-            value={state.Role} />
+        <Dropdown text={role} active={true} >
+        <Dropdown.Menu>
+          <Dropdown.Item  onClick={() => {setrole('Client');setstate({ ...state, Role: 'client' })}}>Client</Dropdown.Item>
+          <Dropdown.Item  onClick={() => {setrole('Technician'); setstate({ ...state, Role: 'technician' })}}>Technician</Dropdown.Item>
+          </Dropdown.Menu>
+          </Dropdown>
         </div>
-        <input className="butt" type="submit" value="Signup" onClick={(e) => { e.preventDefault(); if (state.PassWord === password.passwordrepeat) { dispatch(registerUser(state, history)) } else { alert('check your password') } }} /></form>
+        <input className="butt" type="submit" value="Signup" onClick={(e) => { e.preventDefault(); if (state.PassWord === password.passwordrepeat) {dispatch(registerUser(state, history)) } else {alert('check your password')}}} />
+        </form>
     </div>
   )
 }

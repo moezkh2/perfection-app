@@ -1,6 +1,11 @@
 import {FAIL,LOAD,SERVICE_SUCCESS,FAIL_SERVICE} from '../const'
 const initialState = {
-    service: {},
+    service: [{
+        Category: "Electricity",
+        date: "2021 / 7 / 12",
+        Status: "refused",
+        index: 1
+    }],
     errors: null,
     load: false,
     msg: {}
