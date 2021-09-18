@@ -2,15 +2,21 @@ import React, { useEffect, useState } from "react";
 import "./User.css";
 import 'semantic-ui-css/semantic.min.css'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, Form, Input,Dimmer,Loader } from 'semantic-ui-react'
+import { Button, Form, Input, Dimmer, Loader } from 'semantic-ui-react'
 import { getUser, updateUser } from '../../../Redux/actions/useractions'
+import {getServiceClient} from '../../../Redux/actions/serviceactions'
 function User() {
   let user = useSelector(state => state.userReducer.user);
+  let tasks = useSelector(state => state.serviceReducer.service)
   let errors = useSelector(state => state.userReducer.errors)
   // const test=(e)=>{if(msg!=={}) {if(msg.name){return msg.name}} else return false  }
   const dispatch = useDispatch()
   const [useredit, setuseredit] = useState(user);
-  useEffect(() => { dispatch(getUser()) }, [])
+  useEffect(() => {
+      dispatch(getUser())
+      
+  }, [])
+  /* dispatch(getServiceClient(user._id, user.Role)) */
   const [password, setpassword] = useState('')
   const options = [
     { key: 'c', text: 'Electricity', value: 'Electricity' },
@@ -35,8 +41,8 @@ function User() {
             <div class="title">{user.Role}</div>
             <div class="actions">
               <div class="follow-info">
-                <h2><a href="#"><span>{user.Level || "1"}</span><small>Level</small></a></h2>
-                <h2><a href="#"><span>{user.Role === "Client" ? user.NbrOfCommands || "0" : user.NbrOfTasks || "0"}</span><small>{user.Role === "Client" ? "Commands" : "Tasks"}</small></a></h2>
+                <h2><a href="#"><span>{Math.trunc(tasks.length/10) || "1"}</span><small>Level</small></a></h2>
+                <h2><a href="#"><span>{tasks?.length|| "0"}</span><small>{user.Role === "Client" ? "Commands" : "Tasks"}</small></a></h2>
               </div>
             </div>
             <div class="desc">Morgan has collected ants since they were six years old and now has many dozen ants but none in their pants.</div>
@@ -133,7 +139,7 @@ function User() {
             <Form.Group widths='equal'>
               <Form.Field
                 name="name"
-                error={errors?errors.msg.name:false}
+                error={errors ? errors.msg.name : false}
                 onChange={(e) => setuseredit({ ...useredit, [e.target.name]: e.target.value })}
                 control={Input}
                 label='Name'
@@ -142,7 +148,7 @@ function User() {
               />
               <Form.Field
                 name="address"
-                error={errors?errors.msg.address:false}
+                error={errors ? errors.msg.address : false}
                 onChange={(e) => setuseredit({ ...useredit, [e.target.name]: e.target.value })}
                 control={Input}
                 label='Address'
@@ -154,7 +160,7 @@ function User() {
             <Form.Group widths='equal'>
               <Form.Field
                 name="phone"
-                error={errors?errors.msg.phone:false}
+                error={errors ? errors.msg.phone : false}
                 onChange={(e) => setuseredit({ ...useredit, [e.target.name]: e.target.value })}
                 control={Input}
                 label='Phone'
@@ -168,7 +174,7 @@ function User() {
                 label='Speciality'
                 options={options}
                 defaultValue={user.Speciality}
-                onChange={(e, value) => { setuseredit({ ...useredit, Speciality: value.value }) }}
+                onChange={(e, value) => { setuseredit({ ...useredit, Speciality: value?.value }) }}
               />
 
             </Form.Group>
@@ -192,7 +198,7 @@ function User() {
               />
             </Form.Group>
             <br /><br />
-            <Form.Field ><Button content='Update profile' primary onClick={() => { (!user.Speciality) ? alert('enter speciality') : dispatch(updateUser({ ...useredit, email: user.email })) }} /></Form.Field>
+            <Form.Field ><Button content='Update profile' primary onClick={() => { (!useredit.Speciality) ? alert('enter speciality') : dispatch(updateUser({ ...useredit, email: user.email })) }} /></Form.Field>
           </Form>
         </div>
       </div>
@@ -200,11 +206,11 @@ function User() {
   } else {
     return (<div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
 
-            <Dimmer active inverted>
-                <Loader size='large'>Loading</Loader>
-            </Dimmer>
+      <Dimmer active inverted>
+        <Loader size='large'>Loading</Loader>
+      </Dimmer>
 
-        </div >)
+    </div >)
   }
 }
 export default User;

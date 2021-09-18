@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import './ServiceOrdered.css'
+import '../DashBoard/ServiceOrdered/ServiceOrdered.css'
 import { Table, Pagination, Dropdown, Dimmer, Loader,Message } from 'semantic-ui-react'
 import ReactStars from "react-rating-stars-component"
 import { useSelector, useDispatch } from 'react-redux'
 import { getServiceClient, updateService } from '../../../Redux/actions/serviceactions'
 
-const ServiceOrdered = () => {
+const Demands = () => {
     const service = useSelector(state => state.serviceReducer?.service)
     const user = useSelector(state => state.userReducer?.user)
     const load = useSelector(state => state.serviceReducer.load)
@@ -20,8 +20,8 @@ const ServiceOrdered = () => {
         if (el.Status == 'Approved') return { backgroundColor: 'rgb(22, 173, 22)' }
         if (el.Status == 'On Going') return { backgroundColor: 'rgba(235, 231, 23, 0.877)', color: 'black' }
     }
-    console.log(service)
-    const [tabelSlice, settabelSlice] = useState(service?.slice(0, 4))
+
+    const [tabelSlice, settabelSlice] = useState(user.slice(0, 4))
     /* const id_service = useSelector(state => state.serviceReducer.service._id) */
     const [ping, setPing] = useState(false)
     
@@ -121,4 +121,4 @@ const ServiceOrdered = () => {
 
 
 
-export default ServiceOrdered
+export default Demands

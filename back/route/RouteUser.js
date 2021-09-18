@@ -62,7 +62,7 @@ router.post("/login", loginRoles(), validation, async (req, res) => {
     }
 })
 // get the user if isAuth
-router.get("/profil", isAuth(), async (req, res) => {
+router.get("/profil", isAuth() ,async (req, res) => {
     res.send({ user: req.user })
 })
 // update the user information if isAuth

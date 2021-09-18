@@ -24,6 +24,7 @@ router.get('/getservice/:user/:id',async(req,res)=>{
         if (req.params.user==='technician') result=await service.find({TechnicientId:req.params.id})
          if (req.params.user==='client') result=await service.find({ClientId:req.params.id})
         res.send({service:result,msg:' get service'})
+        console.log(res);
     } catch (error) {
         console.log(error)
         res.status(400).send({msg:'can not get service'})

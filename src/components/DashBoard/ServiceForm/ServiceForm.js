@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Form, Grid, Segment, Button } from 'semantic-ui-react'
 import { addService } from '../../../Redux/actions/serviceactions'
 import date from 'date-and-time';
+import { updateUser } from '../../../Redux/actions/useractions';
 const ServiceForm = ({ match }) => {
     const state = useSelector(state => state.userReducer)
     const datte=()=>{const now = new Date();
@@ -79,7 +80,7 @@ return DATE.toString()
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
-                            <Button onClick={() => {setservice({ ...service,date:datte()});console.log(service) ;dispatch(addService(service,state.user));console.log(service) }} type='submit'>Submit</Button>
+                            <Button onClick={() => {setservice({ ...service,date:datte()});console.log(service) ;dispatch(addService(service,state.user)) }} type='submit'>Submit</Button>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
