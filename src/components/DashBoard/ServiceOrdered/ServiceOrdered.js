@@ -52,7 +52,7 @@ const ServiceOrdered = () => {
             <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }} >
                 <div className="ServiceOrderedDiv">
                     <h1>Ordered Service</h1>
-                    <Table celled>
+                    <Table celled selectable>
                         <Table.Header>
                             <Table.Row>
                                 <Table.HeaderCell>Command Id</Table.HeaderCell>

@@ -8,7 +8,7 @@ export const registerUser = (user, history) => async dispatch => {
         history.push("/dashboard/user")
     } catch (error) {
         console.log(error)
-        dispatch({ type: FAIL, payload: error.response.data })
+        dispatch({ type: FAIL, payload: error.response.data.msg })
     }
 }
 export const loginUser = (user, history) => async dispatch => {
@@ -19,7 +19,7 @@ export const loginUser = (user, history) => async dispatch => {
         history.push("/dashboard/user")
     } catch (error) {
         console.log(error)
-        dispatch({ type: FAIL, payload: error.response.data })
+        dispatch({ type: FAIL, payload: error.response.data.msg })
     }
 }
 export const getUser = () => async dispatch => {

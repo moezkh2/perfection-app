@@ -38,7 +38,7 @@ router.post("/register", registerRoles(), validation, async (req, res) => {
 
 //login user
 
-router.post("/login", loginRoles(), validation, async (req, res) => {
+router.post("/login", async (req, res) => {
     try {
         //search for user in the database by email
         let result = await user.findOne({ email: req.body.email })
@@ -57,7 +57,7 @@ router.post("/login", loginRoles(), validation, async (req, res) => {
             res.status(400).send({ msg: "fail login" })
         }
     } catch (error) {
-        res.send({ msg: "fail login" })
+        res.status(400).send({ msg: "fail login" })
         console.log(error)
     }
 })

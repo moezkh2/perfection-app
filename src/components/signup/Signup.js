@@ -1,12 +1,21 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import { useHistory } from 'react-router-dom'
 import 'semantic-ui-css/semantic.min.css'
-import { useDispatch } from 'react-redux'
+import { useDispatch,useSelector } from 'react-redux'
 import { useState } from 'react'
 import { registerUser } from '../../Redux/actions/useractions'
+import Swal from 'sweetalert2'
 import './signup.css'
 const Signup = () => {
+  const errors = useSelector(state => state.userReducer.errors)
+  useEffect(() => {
+    if(errors){return Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: `${errors.name ||""} ${errors.email||""}  ${errors.PassWord||""} `,
+    })}
+  }, [errors])
   let history = useHistory()
   const dispatch = useDispatch()
   const [state, setstate] = useState({ Role: 'client' })

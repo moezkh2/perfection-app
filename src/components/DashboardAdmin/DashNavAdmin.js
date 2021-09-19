@@ -20,18 +20,18 @@ const DashNav = () => {
                         history.push('/#login')
                         break;
                     case "Demands":
-                        history.push('/dashboardAdmin/Demands')
+                        history.push('/dashboardAdmin/demands')
                         break;
                     case "user":
                         history.push('/dashboardAdmin/user')
                         break;
                     case "Technicians":
                         /* dispatch(getTechnicianList()) */
-                        history.push('/dashboardAdmin/Technicians')
+                        history.push('/dashboardAdmin/technicians')
                         break;
                     case "Clients":
                         /* dispatch(getTechnicianList('Mechanic')) */
-                        history.push('/dashboardAdmin/Clients')
+                        history.push('/dashboardAdmin/clients')
                         break;
                     
                     default:
@@ -52,7 +52,7 @@ const DashNav = () => {
 
                 <NavItem >
                     <NavIcon>
-                        <Icon name='book' />
+                        <Icon name='sitemap' />
                     </NavIcon>
                     <NavText>
                         Members Mangement
@@ -70,7 +70,7 @@ const DashNav = () => {
                 </NavItem>
                 <NavItem eventKey="Demands">
                     <NavIcon>
-                        <Icon name='Demands' />
+                        <Icon name='envelope open outline' />
                     </NavIcon>
                     <NavText>
                     Demands

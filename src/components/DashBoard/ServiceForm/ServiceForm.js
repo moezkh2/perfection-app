@@ -1,10 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Form, Grid, Segment, Button } from 'semantic-ui-react'
 import { addService } from '../../../Redux/actions/serviceactions'
+import Swal from 'sweetalert2'
 import date from 'date-and-time';
-import { updateUser } from '../../../Redux/actions/useractions';
 const ServiceForm = ({ match }) => {
+    const errors = useSelector(state => state.serviceReducer.errors)
+    useEffect(() => {
+        if(errors){return Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: errors,
+          })}
+    }, [errors])
+    
     const state = useSelector(state => state.userReducer)
     const datte=()=>{const now = new Date();
         let DATE=   date.format(now, 'YYYY/MM/DD HH:mm:ss');
