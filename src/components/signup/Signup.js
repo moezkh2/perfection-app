@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import 'semantic-ui-css/semantic.min.css'
 import { useDispatch,useSelector } from 'react-redux'
 import { useState } from 'react'
-import { registerUser } from '../../Redux/actions/useractions'
+import { registerUser,alerte } from '../../Redux/actions/useractions'
 import Swal from 'sweetalert2'
 import './signup.css'
 const Signup = () => {
@@ -14,7 +14,9 @@ const Signup = () => {
       icon: 'error',
       title: 'Oops...',
       text: `${errors.name ||""} ${errors.email||""}  ${errors.PassWord||""} `,
-    })}
+    }).then((result) => {
+      dispatch(alerte())
+      })}
   }, [errors])
   let history = useHistory()
   const dispatch = useDispatch()

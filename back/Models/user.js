@@ -8,6 +8,8 @@ const userSchema= new mongoose.Schema({
     NbrOfTasks: {type:Number,required:false},
     Speciality: {type:String,required:false},
     Role: {type:String,required:true},
-    Level: {type:Number,required:false}
+    Level: {type:Number,required:false},
+    IsApproved:{type:Boolean,required:false,default:false},
+    IsBlocked:{type:Boolean,required:false,default:false}
 })
 module.exports= mongoose.model('user',userSchema)

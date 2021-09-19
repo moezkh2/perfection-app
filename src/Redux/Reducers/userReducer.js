@@ -1,4 +1,4 @@
-import { FAIL, LOAD, USER_SUCCESS, LOGIN_USER_SUCCESS, GET_USER_SUCCESS,GET_TECHNICIAN_LIST } from '../const'
+import { FAIL, LOAD, USER_SUCCESS, LOGIN_USER_SUCCESS, GET_USER_SUCCESS,GET_TECHNICIAN_LIST, RESET, GET_ALL_TECH, GET_ALL_CLIENTS } from '../const'
 const initialState = {
     user: {},
     errors: null,
@@ -6,7 +6,10 @@ const initialState = {
     msg: {},
     isAuth: false,
     techlist:[],
+    tech:[],
     login: true,
+    isApproved:false,
+    clients:[]
 }
 export const userReducer = (state = initialState, { type, payload }) => {
     switch (type) {
@@ -18,6 +21,9 @@ export const userReducer = (state = initialState, { type, payload }) => {
         case LOGIN_USER_SUCCESS: return { ...state, login: false }
         case FAIL: return { ...state, load: false, errors: payload }
         case GET_TECHNICIAN_LIST: return {...state,load: false,techlist:payload.techlist,msg: payload.msg}
+        case RESET:return{...state,errors:null,msg:{}}
+        case GET_ALL_TECH:return{...state,load:false,tech:payload.tech,msg:payload.msg}
+        case GET_ALL_CLIENTS:return{...state,load:false,clients:payload.client,msg:payload.msg}
         default: return state;
     }
 }

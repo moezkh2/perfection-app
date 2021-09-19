@@ -2,7 +2,7 @@ import React from 'react'
 import User from '../DashBoard/User/User'
 import DashNavAdmin from './DashNavAdmin'
 import Demands from './Demands'
-import Technicians from './Technicians'
+import {Technicians} from './Technicians'
 import Clients from './Clients'
 import { Switch,Route } from 'react-router-dom'
 const DashBoardAdmin = ({match}) => {

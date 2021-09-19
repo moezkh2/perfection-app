@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Form, Grid, Segment, Button } from 'semantic-ui-react'
 import { addService } from '../../../Redux/actions/serviceactions'
+import { alerte } from '../../../Redux/actions/useractions'
 import Swal from 'sweetalert2'
 import date from 'date-and-time';
 const ServiceForm = ({ match }) => {
@@ -11,7 +12,9 @@ const ServiceForm = ({ match }) => {
             icon: 'error',
             title: 'Oops...',
             text: errors,
-          })}
+          }).then((result) => {
+            dispatch(alerte())
+            })}
     }, [errors])
     
     const state = useSelector(state => state.userReducer)

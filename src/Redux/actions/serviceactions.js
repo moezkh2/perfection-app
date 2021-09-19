@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { FAIL, LOAD, SERVICE_SUCCESS,FAIL_SERVICE } from '../const'
+import { FAIL, LOAD, SERVICE_SUCCESS,FAIL_SERVICE,RESET } from '../const'
 import { useSelector } from 'react-redux'
 
 export const getServiceClient=(id,user)=>async dispatch=>{
@@ -48,3 +48,6 @@ export const updateService=(id,user,update)=> async dispatch=>{
         dispatch({type:FAIL,payload:error.response.data})
     }
 }
+export const alerte =()=>{
+    return {type:RESET}
+ }

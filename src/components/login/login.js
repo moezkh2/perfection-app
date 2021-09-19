@@ -1,7 +1,7 @@
 import React,{useEffect} from 'react'
 import './login.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { loginUser, toggle } from '../../Redux/actions/useractions'
+import { loginUser, toggle,alerte } from '../../Redux/actions/useractions'
 import { useState } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
@@ -14,8 +14,12 @@ useEffect(() => {
   if(errors){return Swal.fire({
     icon: 'error',
     title: 'Oops...',
-    text: errors,
-  })}
+    confirmButtonText: 'OK',
+    text: errors})
+    .then((result) => {
+      dispatch(alerte())
+      })
+}
 }, [errors])
   return (
 

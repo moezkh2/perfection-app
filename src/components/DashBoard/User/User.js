@@ -13,9 +13,7 @@ function User() {
   const dispatch = useDispatch()
   const [useredit, setuseredit] = useState(user);
   useEffect(() => {
-      dispatch(getUser())
-      
-  }, [])
+      dispatch(getUser())}, [])
   /* dispatch(getServiceClient(user._id, user.Role)) */
   const [password, setpassword] = useState('')
   const options = [
@@ -25,7 +23,7 @@ function User() {
     { key: 't', text: 'Plumbers', value: 'Plumbers' },
     { key: 't', text: 'Refrigeration', value: 'Refrigeration' },
     { key: 't', text: 'Mason', value: 'Mason' }]
-  if (user.Role === "client") {
+  if (user.Role === "client"||user.Role === "admin") {
     return (
       <div >
         <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
@@ -39,11 +37,11 @@ function User() {
               </svg></div>
             <h2 class="name">{user.name || "name"}</h2>
             <div class="title">{user.Role}</div>
-            <div class="actions">
+            <div class="actions">{(user.Role==='client')?
               <div class="follow-info">
                 <h2><a href="#"><span>{Math.trunc(tasks.length/10) || "1"}</span><small>Level</small></a></h2>
                 <h2><a href="#"><span>{tasks?.length|| "0"}</span><small>{user.Role === "Client" ? "Commands" : "Tasks"}</small></a></h2>
-              </div>
+              </div>:null}
             </div>
             <div class="desc">Morgan has collected ants since they were six years old and now has many dozen ants but none in their pants.</div>
           </div>

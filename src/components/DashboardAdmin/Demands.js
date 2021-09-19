@@ -1,60 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect} from 'react'
 import '../DashBoard/ServiceOrdered/ServiceOrdered.css'
 import { Table, Pagination, Dimmer, Loader, Message, Button } from 'semantic-ui-react'
-const listNotApproved = [
-    {
-        name: "mo",
-        email: "mo@gmail.com",
-        address: "fr 214 fgr",
-        Speciality: "Elect",
-        status:"approved"
-    },
-    {
-        name: "mo",
-        email: "mo@gmail.com",
-        address: "fr 214 fgr",
-        Speciality: "Elect",
-        status:"approved"
-    },
-    {
-        name: "mo",
-        email: "mo@gmail.com",
-        address: "fr 214 fgr",
-        Speciality: "Elect",
-        status:"approved"
-    },
-    {
-        name: "mo",
-        email: "mo@gmail.com",
-        address: "fr 214 fgr",
-        Speciality: "Elect",
-        status:" not"
-    },
-    {
-        name: "mo",
-        email: "mo@gmail.com",
-        address: "fr 214 fgr",
-        Speciality: "Elect",
-        status:" not"
-    },
-    {
-        name: "mo",
-        email: "mo@gmail.com",
-        address: "fr 214 fgr",
-        Speciality: "Elect",
-        status:" not"
-    },
-]
+import { useSelector,useDispatch } from 'react-redux'
+import { getTechnicians,deleteTechnician,  updateAdmin } from '../../Redux/actions/useractions'
+
 const Demands = () => {
     const load = false
-
-    const [tabelSlice, settabelSlice] = useState(listNotApproved.slice(0, 4))
+    const tech = useSelector(state => state.userReducer.tech)
+    const dispatch = useDispatch()
+    // dispatch(getTechnicians())
+    // useEffect(() => {
+    // }, )
+    const [tabelSlice, settabelSlice] = useState(tech.slice(0, 4))
     /* const id_service = useSelector(state => state.serviceReducer.service._id) */
 
     const handlePaginationChange = (e, page) => {
         let slice = 4
         if (page.activePage > 1) { slice = 4 * page.activePage }
-        settabelSlice(listNotApproved.slice(slice - 4, slice))
+        settabelSlice(tech.slice(slice - 4, slice))
     }
 
     if (load) {
@@ -66,7 +29,7 @@ const Demands = () => {
 
         </div >)
     }
-    if (listNotApproved.length === 0) {
+    if (tech.length === 0) {
         return (<div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
             <Message negative>
                 <Message.Header>Oups!!, there is no technician available</Message.Header>
@@ -88,7 +51,7 @@ const Demands = () => {
                             <Table.HeaderCell>Action</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
-                    {tabelSlice?.map((el) => {
+                    {tabelSlice?.filter(el=>el.IsApproved===false).map((el) => {
                         return (
                             <Table.Body>
                                 <Table.Row>
@@ -98,9 +61,9 @@ const Demands = () => {
                                     <Table.Cell>{el.Speciality}</Table.Cell>
                                     <Table.Cell textAlign="center">
                                         <Button.Group>
-                                            <Button positive>Approve</Button>
-                                            <Button.Or text='ou' />
-                                            <Button negative>Deny</Button>
+                                            <Button positive onClick={()=>{ dispatch(updateAdmin({...el,IsApproved:true}));console.log(el);}}>Approve</Button>
+                                            <Button.Or text='OR' />
+                                            <Button negative onClick={()=>{dispatch(deleteTechnician(el._id))}}>Deny</Button>
                                         </Button.Group>
                                     </Table.Cell>
                                 </Table.Row>
@@ -115,7 +78,7 @@ const Demands = () => {
                                     onPageChange={handlePaginationChange}
                                     size='mini'
                                     siblingRange={1}
-                                    totalPages={Math.ceil((listNotApproved?.length) / 4)}
+                                    totalPages={Math.ceil((tech?.length) / 4)}
                                     // Heads up! All items are powered by shorthands, if you want to hide one of them, just pass `null` as value
                                     ellipsisItem={null}
                                     firstItem={undefined}

@@ -87,7 +87,52 @@ router.get("/gettechnicianlist/:technician", isAuth(), async (req, res) => {
     }
 })
 
-
-
+router.get("/getttechnicianlist/all", isAuth(), async (req, res) => {
+    try {
+        let result = await user.find({ Role:'technician' })
+        if (result.length===0) { return res.send({ tech: result, msg: 'no technician available' }) }
+        res.send({ tech: result, msg: 'All technician list' })
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({ msg: 'can not get all technician list' })
+    }
+})
+router.delete('/technician/delete/:id',isAuth(),async (req, res)=>{
+    try {
+        let result =await user.findByIdAndRemove(req.params.id)
+        res.send({msg:'technician deleted'})
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({msg:'can not delete technician'})
+    }
+})
+router.get("/getclients/all", isAuth(), async (req, res) => {
+    try {
+        let result = await user.find({ Role:'client' })
+        if (result.length===0) { return res.send({ client: result, msg: 'no client available' }) }
+        res.send({ client: result, msg: 'All client list' })
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({ msg: 'can not get all client list' })
+    }
+})
+router.delete('/client/delete/:id',isAuth(),async (req, res)=>{
+    try {
+        let result =await user.findByIdAndRemove(req.params.id)
+        res.send({msg:'client deleted'})
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({msg:'can not delete client'})
+    }
+})
+router.put("/adminupdate", isAuth(), async (req, res) => {
+    try {
+        let result = await user.updateOne({ email: req.body.email }, req.body)
+        res.send({ msg: 'user updated' })
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({ msg: 'can not update user' })
+    }
+})
 
 module.exports = router
