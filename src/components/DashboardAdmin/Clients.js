@@ -2,23 +2,22 @@ import {React,useEffect,useState} from 'react'
 import { useSelector,useDispatch } from 'react-redux'
 import '../DashBoard/ServiceOrdered/ServiceOrdered.css'
 import { Table, Pagination, Dimmer, Loader, Message, Button } from 'semantic-ui-react'
-import { deleteClient, getClients, updateAdmin } from '../../Redux/actions/useractions'
+import { getClients, updateAdmin } from '../../Redux/actions/useractions'
 const Clients = () => {
     const load = false
     const clients = useSelector(state => state.userReducer.clients)
-    console.log(clients,'fgfgfg')
     const dispatch = useDispatch()
     
-    // useEffect(() => {
-    // }, [clients])
-    dispatch(getClients())
-    const [tabelSlice, settabelSlice] = useState(clients.slice(0, 4))
+    useEffect(() => {dispatch(getClients())
+    }, [])
+    
+    const [tabelSlice, settabelSlice] = useState(clients?.slice(0, 4))
     /* const id_service = useSelector(state => state.serviceReducer.service._id) */
 
     const handlePaginationChange = (e, page) => {
         let slice = 4
         if (page.activePage > 1) { slice = 4 * page.activePage }
-        settabelSlice(clients.slice(slice - 4, slice))
+        settabelSlice(clients?.slice(slice - 4, slice))
     }
 
     if (load) {
@@ -52,7 +51,7 @@ const Clients = () => {
                             <Table.HeaderCell>Action</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
-                    {tabelSlice?.filter(el=>el.IsApproved===false).map((el) => {
+                    {clients?clients.filter(el=>el.IsApproved===false).map((el) => {
                         return (
                             <Table.Body>
                                 <Table.Row>
@@ -70,7 +69,7 @@ const Clients = () => {
                                     </Table.Cell>
                                 </Table.Row>
                             </Table.Body>)
-                    })}
+                    }):<h2>...loading</h2>}
                     <Table.Footer>
                         <Table.Row>
                             <Table.HeaderCell colSpan='4'>

@@ -1,4 +1,4 @@
-import {FAIL,LOAD,SERVICE_SUCCESS,FAIL_SERVICE, RESET} from '../const'
+import {LOAD,SERVICE_SUCCESS,FAIL_SERVICE, RESET} from '../const'
 const initialState = {
     service: [],
     errors: null,

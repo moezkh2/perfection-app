@@ -4,14 +4,13 @@ import { Table, Pagination, Dropdown, Dimmer, Loader, Message, Modal, Button, Gr
 import ReactStars from "react-rating-stars-component"
 import { useSelector, useDispatch } from 'react-redux'
 import { getServiceClient, updateService } from '../../../Redux/actions/serviceactions'
-
+import { getUser } from '../../../Redux/actions/useractions'
 const ServiceOrdered = () => {
-    const service = useSelector(state => state.serviceReducer?.service)
-    const user = useSelector(state => state.userReducer?.user)
-    const load = useSelector(state => state.serviceReducer.load)
     const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(getServiceClient(user._id, user.Role))
+    const service = useSelector(state => state.serviceReducer.service)
+    const load = useSelector(state => state.serviceReducer.load)
+    const user = useSelector(state => state.userReducer?.user);
+    useEffect(() => {dispatch(getUser())
     }, [])
     const modal = (serv) => {
         <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
@@ -31,13 +30,13 @@ const ServiceOrdered = () => {
                             <Segment>Client Name:</Segment>
                         </Grid.Column>
                         <Grid.Column >
-                            <Segment>{state.user.name}</Segment>
+                            <Segment>{user.name}</Segment>
                         </Grid.Column>
                         <Grid.Column>
                             <Segment>Client Name:</Segment>
                         </Grid.Column>
                         <Grid.Column>
-                            <Segment>{state.user.email}</Segment>
+                            <Segment>{user.email}</Segment>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
@@ -61,9 +60,6 @@ const ServiceOrdered = () => {
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-
-
-
             </div>
         </div>
     }
@@ -73,7 +69,6 @@ const ServiceOrdered = () => {
         if (el.Status == 'Approved') return { backgroundColor: 'rgb(22, 173, 22)' }
         if (el.Status == 'On Going') return { backgroundColor: 'rgba(235, 231, 23, 0.877)', color: 'black' }
     }
-    console.log(service)
     const [tabelSlice, settabelSlice] = useState(service?.slice(0, 4))
     /* const id_service = useSelector(state => state.serviceReducer.service._id) */
     const [ping, setPing] = useState(false)
@@ -101,7 +96,7 @@ const ServiceOrdered = () => {
             </Message>
         </div >)
     }
-    return (
+   else return (
         <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }} >
             <div className="ServiceOrderedDiv">
                 <h1>Ordered Service</h1>
@@ -115,7 +110,7 @@ const ServiceOrdered = () => {
                             <Table.HeaderCell>Rating</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
-                    {tabelSlice?.map((el) => {
+                    {service?service.map((el) => {
                         return (
                             <Table.Body>
                                 <Table.Row >
@@ -149,7 +144,8 @@ const ServiceOrdered = () => {
                                     </Table.Cell>
                                 </Table.Row>
                             </Table.Body>)
-                    })}
+                    }):<h2>...loading</h2>
+                    }
                     <Table.Footer>
                         <Table.Row>
                             <Table.HeaderCell colSpan='4'>

@@ -6,19 +6,20 @@ import { Table, Pagination, Dimmer, Loader, Message, Button } from 'semantic-ui-
 
 export const Technicians = () => {
     const load = false
-    const tech = useSelector(state => state.userReducer.tech)
+   
     const dispatch = useDispatch()
     
-    // useEffect(() => {
-    // }, [clients])
-    dispatch(getTechnicians())
-    const [tabelSlice, settabelSlice] = useState(tech.slice(0, 4))
+    useEffect(() => {dispatch(getTechnicians())
+    }, [])
+    const tech = useSelector(state => state.userReducer.tech)
+    
+    const [tabelSlice, settabelSlice] = useState(tech?.slice(0, 4))
     /* const id_service = useSelector(state => state.serviceReducer.service._id) */
 
     const handlePaginationChange = (e, page) => {
         let slice = 4
         if (page.activePage > 1) { slice = 4 * page.activePage }
-        settabelSlice(tech.slice(slice - 4, slice))
+        settabelSlice(tech?.slice(slice - 4, slice))
     }
 
     if (load) {
@@ -30,7 +31,7 @@ export const Technicians = () => {
 
         </div >)
     }
-    if (tech.length === 0) {
+    if (tech?.length === 0) {
         return (<div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
             <Message negative>
                 <Message.Header>Oups!!, there is no technician available</Message.Header>
@@ -52,7 +53,7 @@ export const Technicians = () => {
                             <Table.HeaderCell>Action</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
-                    {tabelSlice?.filter(el=>el.IsApproved===true).map((el) => {
+                    {tech?tech.filter(el=>el.IsApproved===true).map((el) => {
                         return (
                             <Table.Body>
                                 <Table.Row>
@@ -70,7 +71,7 @@ export const Technicians = () => {
                                     </Table.Cell>
                                 </Table.Row>
                             </Table.Body>)
-                    })}
+                    }):<h1>...loading</h1>}
                     <Table.Footer>
                         <Table.Row>
                             <Table.HeaderCell colSpan='4'>

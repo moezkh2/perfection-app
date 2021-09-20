@@ -4,17 +4,14 @@ import 'semantic-ui-css/semantic.min.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { Button, Form, Input, Dimmer, Loader } from 'semantic-ui-react'
 import { getUser, updateUser } from '../../../Redux/actions/useractions'
-import {getServiceClient} from '../../../Redux/actions/serviceactions'
 function User() {
   let user = useSelector(state => state.userReducer.user);
   let tasks = useSelector(state => state.serviceReducer.service)
   let errors = useSelector(state => state.userReducer.errors)
-  // const test=(e)=>{if(msg!=={}) {if(msg.name){return msg.name}} else return false  }
   const dispatch = useDispatch()
   const [useredit, setuseredit] = useState(user);
   useEffect(() => {
       dispatch(getUser())}, [])
-  /* dispatch(getServiceClient(user._id, user.Role)) */
   const [password, setpassword] = useState('')
   const options = [
     { key: 'c', text: 'Electricity', value: 'Electricity' },
