@@ -10,10 +10,9 @@ const ServiceOrdered = () => {
     const service = useSelector(state => state.serviceReducer.service)
     const load = useSelector(state => state.serviceReducer.load)
     const user = useSelector(state => state.userReducer?.user);
-    useEffect(() => {dispatch(getUser())
-    }, [])
+    useEffect(() => {dispatch(getUser())}, [])
     const modal = (serv) => {
-        <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
+       return( <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
             <div className="edit" style={{ width: "700px", height: '550px' }}>
                 <h2>Service</h2>
                 <Grid columns='equal'>
@@ -61,7 +60,7 @@ const ServiceOrdered = () => {
                     </Grid.Row>
                 </Grid>
             </div>
-        </div>
+        </div>)
     }
     const color = (el) => {
         if (el.Status == 'Accepted') return { backgroundColor: 'rgb(243, 141, 73)' }

@@ -34,7 +34,7 @@ return DATE.toString()
     })
     return (
         <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
-            <div className="edit" style={{ width: "700px", height: '550px' }}>
+            <div className="edit" style={{ width: "800px", height: '550px' }}>
                 <h2>Order a Service</h2>
                 <Grid columns='equal'>
                     <Grid.Row>
@@ -73,7 +73,6 @@ return DATE.toString()
                             <Segment>{Technician[0].email}</Segment>
                         </Grid.Column>
                     </Grid.Row>
-                    
                     <Grid.Row>
                         <Grid.Column>
                             <Form>
@@ -92,16 +91,12 @@ return DATE.toString()
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
-                            <Button onClick={() => {setservice({ ...service,date:datte()});console.log(service) ;dispatch(addService(service,state.user)) }} type='submit'>Submit</Button>
+                            <Button onClick={()=> {setservice({ ...service,date:datte()});console.log(service) ;dispatch(addService(service,state.user)) }} type='submit'>Submit</Button>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-
-
-
             </div>
         </div>
     )
 }
-
 export default ServiceForm
