@@ -17,8 +17,7 @@ function User() {
     dispatch(getUser())
   }, [])
   useEffect(() => {
-   
-    if (msg) {
+    if (msg==="user updated") {
       Swal.fire({
         icon: 'success',
         title: "user updated",

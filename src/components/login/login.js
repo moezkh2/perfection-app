@@ -37,7 +37,7 @@ useEffect(() => {
           <i className="fas fa-lock" /><input placeholder="Password" type="password" name="PassWord"
             onChange={(e) => setuser({ ...user, [e.target.name]: e.target.value })} />
         </div>
-        <input className="but" type="submit" value="Login" onClick={(e) => { e.preventDefault(); dispatch(loginUser(user, history)) }} /><Link to='' onClick={() => dispatch(toggle())} >
+        <input className="but" type="submit" value="Login" onClick={(e) => {  e.preventDefault(); dispatch(loginUser(user, history)) }} /><Link to='' onClick={() => dispatch(toggle())} >
           <div className="font-weight-light"><br />
             <p style={{ textAlign: "center", color: 'gray' }}>Not a member? Sign Up</p>
           </div></Link>

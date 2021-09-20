@@ -5,18 +5,21 @@ import { addService } from '../../../Redux/actions/serviceactions'
 import { alerte } from '../../../Redux/actions/useractions'
 import Swal from 'sweetalert2'
 import date from 'date-and-time';
+import {useHistory} from 'react-router-dom'
 const ServiceForm = ({ match }) => {
+    let history = useHistory()
     const errors = useSelector(state => state.serviceReducer.errors)
     const msg = useSelector(state => state.serviceReducer.msg)
     useEffect(() => {
         if (msg) {
             Swal.fire({
                 icon: 'success',
-                title: {msg},
-                showConfirmButton: false,
-                timer: 1500
+                title: "service added",
+                showConfirmButton: true,
+               
             }).then((result) => {
                 dispatch(alerte())
+                history.push('/dashboard/user')
             })
         }
         if (errors) {
@@ -42,8 +45,8 @@ const ServiceForm = ({ match }) => {
     const [Technician, setTechnician] = useState(state.techlist.filter(el => { return el._id === match.params.technician }))
     const [service, setservice] = useState({
         Category: Technician[0].Speciality,
-        TechnicientId: Technician[0]._id,
-        ClientId: state.user._id,
+        TechnicientId: Technician[0],
+        ClientId: state.user,
         date: datte()
     })
     return (

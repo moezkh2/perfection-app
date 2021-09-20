@@ -5,11 +5,11 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import { useHistory } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import { getTechnicianList } from '../../Redux/actions/useractions'
+import { Link } from 'react-router-dom';
 const DashNav = () => {
     const dispatch = useDispatch()
     let history = useHistory()
     const user = useSelector(state => state.userReducer.user)
-    console.log(user)
     return (
         <SideNav
             onSelect={(selected) => {
@@ -17,7 +17,8 @@ const DashNav = () => {
                 switch (selected) {
                     case "sign-out":
                         localStorage.removeItem("token")
-                        history.push('/#login')
+                        // window.location.reload(true);
+                        // history.push('/')
                         break;
                     case "servicesrdered":
                         history.push('/dashboard/servicesrdered')
@@ -114,7 +115,7 @@ const DashNav = () => {
                 </NavItem>
                 <NavItem eventKey="sign-out">
                     <NavIcon>
-                        <Icon name='sign-out' />
+                    <Link to='/'><Icon name='sign-out' /></Link>
                     </NavIcon>
                     <NavText>
                         sign-out

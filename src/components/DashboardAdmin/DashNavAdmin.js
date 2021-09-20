@@ -3,13 +3,8 @@ import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import { Icon } from 'semantic-ui-react'
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getTechnicianList } from '../../Redux/actions/useractions'
 const DashNav = () => {
-    const dispatch = useDispatch()
     let history = useHistory()
-    const user = useSelector(state => state.userReducer.user)
-    console.log(user)
     return (
         <SideNav
             onSelect={(selected) => {
@@ -26,11 +21,9 @@ const DashNav = () => {
                         history.push('/dashboardAdmin/user')
                         break;
                     case "Technicians":
-                        /* dispatch(getTechnicianList()) */
                         history.push('/dashboardAdmin/technicians')
                         break;
                     case "Clients":
-                        /* dispatch(getTechnicianList('Mechanic')) */
                         history.push('/dashboardAdmin/clients')
                         break;
                     

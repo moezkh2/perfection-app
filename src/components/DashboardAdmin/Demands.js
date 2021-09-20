@@ -1,19 +1,14 @@
-import React, { useState ,useEffect} from 'react'
+import React, { useState } from 'react'
 import '../DashBoard/ServiceOrdered/ServiceOrdered.css'
 import { Table, Pagination, Dimmer, Loader, Message, Button } from 'semantic-ui-react'
 import { useSelector,useDispatch } from 'react-redux'
-import { getTechnicians,deleteTechnician,  updateAdmin } from '../../Redux/actions/useractions'
+import { deleteTechnician,  updateAdmin } from '../../Redux/actions/useractions'
 
 const Demands = () => {
     const load = false
     const tech = useSelector(state => state.userReducer.tech)
     const dispatch = useDispatch()
-    // dispatch(getTechnicians())
-    // useEffect(() => {
-    // }, )
     const [tabelSlice, settabelSlice] = useState(tech.slice(0, 4))
-    /* const id_service = useSelector(state => state.serviceReducer.service._id) */
-
     const handlePaginationChange = (e, page) => {
         let slice = 4
         if (page.activePage > 1) { slice = 4 * page.activePage }
@@ -51,7 +46,7 @@ const Demands = () => {
                             <Table.HeaderCell>Action</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
-                    {tabelSlice?.filter(el=>el.IsApproved===false).map((el) => {
+                    {tech?tech.filter(el=>el.IsApproved===false).map((el) => {
                         return (
                             <Table.Body>
                                 <Table.Row>
@@ -68,7 +63,7 @@ const Demands = () => {
                                     </Table.Cell>
                                 </Table.Row>
                             </Table.Body>)
-                    })}
+                    }):<h2>...loading</h2>}
                     <Table.Footer>
                         <Table.Row>
                             <Table.HeaderCell colSpan='4'>

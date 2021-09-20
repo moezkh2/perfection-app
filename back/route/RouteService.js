@@ -21,24 +21,16 @@ try {
 //get
 router.get('/getservice/:user/:id',async(req,res)=>{
     try {let result
-        if (req.params.user==='technician') result=await service.find({TechnicientId:req.params.id})
-         if (req.params.user==='client') result=await service.find({ClientId:req.params.id})
-        res.send({service:result,msg:' get service'})
-        console.log(res);
+       console.log( "idididid",req.params.id)
+        if (req.params.user==='technician') result=await service.find({"TechnicientId._id":req.params.id})
+         if (req.params.user==='client') result=await service.find({"ClientId._id":req.params.id})
+         console.log(result,"dddddd")
+        res.send({service:result}) /* ,msg:' get service' */
     } catch (error) {
         console.log(error)
         res.status(400).send({msg:'can not get service'})
     }
 })
-// router.get('/getservice/client/:id',async(req,res)=>{
-//     try {
-//         let result=await service.find({ClientId:req.params.id})
-//         res.send({service:result,msg:' get service'})
-//     } catch (error) {
-//         console.log(error)
-//         res.status(400).send({msg:'can not get service'})
-//     }
-// })
 router.put('/updateservice/:id',async(req,res)=>{
     try {
         let result=await service.findOneAndUpdate({_id:req.params.id},req.body)

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { UPDATE_USER,FAIL, LOAD, USER_SUCCESS, LOGIN_USER_SUCCESS, GET_USER_SUCCESS,GET_TECHNICIAN_LIST,RESET,GET_ALL_CLIENTS, GET_ALL_TECH } from '../const'
+import { getServiceClient } from './serviceactions'
 export const registerUser = (user, history) => async dispatch => {
     dispatch({ type: LOAD })
     try {
@@ -33,6 +34,7 @@ export const getUser = () => async dispatch => {
             }
         })
         dispatch({ type: GET_USER_SUCCESS, payload: result.data })
+        dispatch(getServiceClient(result.data.user._id,result.data.user.Role))
     } catch (error) {
         console.log(error)
         dispatch({ type: FAIL, payload: error.response.data })
@@ -46,7 +48,7 @@ export const updateUser = (user) => async dispatch => {
                 'Authorization': localStorage.getItem("token")
             }
         })
-        dispatch({ type: UPDATE_USER, payload: result.data })
+        dispatch({ type: UPDATE_USER, payload: result.data.msg })
         console.log(result)
     } catch (error) {
         console.log(error)
@@ -94,8 +96,7 @@ export const getClients=()=>async dispatch=>{
         dispatch({ type: FAIL, payload: error.response.data})
     }
 }
-export const toggle = () => {
-    return { type: LOGIN_USER_SUCCESS }}
+export const toggle = () => {return { type: LOGIN_USER_SUCCESS }}
 export const alerte =()=>{
    return {type:RESET}
 }
@@ -134,6 +135,8 @@ export const updateAdmin = (user) => async dispatch => {
             }
         })
             dispatch(getUser())
+            dispatch(getTechnicians())
+            dispatch(getClients())
     } catch (error) {
         console.log(error)
         dispatch({ type: FAIL, payload: error.response.data })

@@ -4,21 +4,19 @@ import { Table, Pagination, Dropdown, Dimmer, Loader, Message, Modal, Button, Gr
 import ReactStars from "react-rating-stars-component"
 import { useSelector, useDispatch } from 'react-redux'
 import { getServiceClient, updateService } from '../../../Redux/actions/serviceactions'
-
+import { getUser } from '../../../Redux/actions/useractions'
 const ServiceOrdered = () => {
-    const service = useSelector(state => state.serviceReducer?.service)
-    const user = useSelector(state => state.userReducer?.user)
-    const load = useSelector(state => state.serviceReducer.load)
-    const [tabelSlice, settabelSlice] = useState(service.slice(0, 4))
-    console.log('tabeleslice',tabelSlice)
     const dispatch = useDispatch()
+    const service = useSelector(state => state.serviceReducer.service)
+    const load = useSelector(state => state.serviceReducer.load)
+    const user = useSelector(state => state.userReducer?.user);
     useEffect(() => {
-        dispatch(getServiceClient(user._id, user.Role))
+        dispatch(getUser())
     }, [])
     const modal = (serv) => {
         return (
             <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
-                <div className="edit" style={{ width: "700px", height: '400px' }}>
+                <div className="edit" style={{ width: "700px", height: '550px' }}>
                     <h2>Service</h2>
                     <Grid columns='equal'>
                         <Grid.Row>
@@ -26,7 +24,7 @@ const ServiceOrdered = () => {
                                 <Segment>Category</Segment>
                             </Grid.Column>
                             <Grid.Column >
-                                <Segment>{serv.Category}</Segment>
+                                <Segment>{serv.TechnicientId.Speciality}</Segment>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
@@ -34,13 +32,13 @@ const ServiceOrdered = () => {
                                 <Segment>Client Name:</Segment>
                             </Grid.Column>
                             <Grid.Column >
-                                <Segment>{/* {state.user.name} */}</Segment>
+                                <Segment>{serv.ClientId.name}</Segment>
                             </Grid.Column>
                             <Grid.Column>
                                 <Segment>Client Email:</Segment>
                             </Grid.Column>
                             <Grid.Column>
-                                <Segment>{/* {state.user.email} */}</Segment>
+                                <Segment>{serv.ClientId.email}</Segment>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
@@ -48,15 +46,16 @@ const ServiceOrdered = () => {
                                 <Segment>Technician Name:</Segment>
                             </Grid.Column>
                             <Grid.Column >
-                                <Segment>{user.name}</Segment>
+                                <Segment>{serv.TechnicientId.name}</Segment>
                             </Grid.Column>
                             <Grid.Column>
-                                <Segment>Technician Name:</Segment>
+                                <Segment>Technician Email:</Segment>
                             </Grid.Column>
                             <Grid.Column>
-                                <Segment>{user.email}</Segment>
+                                <Segment>{serv.TechnicientId.email}</Segment>
                             </Grid.Column>
                         </Grid.Row>
+
                         <Grid.Row>
                             <Grid.Column>
                                 <Segment>{serv.description}</Segment>
@@ -73,6 +72,11 @@ const ServiceOrdered = () => {
         if (el.Status == 'Approved') return { backgroundColor: 'rgb(22, 173, 22)' }
         if (el.Status == 'On Going') return { backgroundColor: 'rgba(235, 231, 23, 0.877)', color: 'black' }
     }
+    const [tabelSlice, settabelSlice] = useState()
+    setTimeout(() => {
+        settabelSlice(service?.slice(0, 4))
+    }, 2000);
+
     /* const id_service = useSelector(state => state.serviceReducer.service._id) */
     const [ping, setPing] = useState(false)
     const handlePaginationChange = (e, page) => {
@@ -98,7 +102,7 @@ const ServiceOrdered = () => {
             </Message>
         </div >)
     }
-    return (
+    else return (
         <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }} >
             <div className="ServiceOrderedDiv">
                 <h1>Ordered Service</h1>
@@ -112,7 +116,7 @@ const ServiceOrdered = () => {
                             <Table.HeaderCell>Rating</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
-                    {tabelSlice?.map((el) => {
+                    {tabelSlice ? tabelSlice.map((el) => {
                         return (
                             <Table.Body>
                                 <Table.Row >
@@ -146,7 +150,8 @@ const ServiceOrdered = () => {
                                     </Table.Cell>
                                 </Table.Row>
                             </Table.Body>)
-                    })}
+                    }) : <h2>...loading</h2>
+                    }
                     <Table.Footer>
                         <Table.Row>
                             <Table.HeaderCell colSpan='4'>
