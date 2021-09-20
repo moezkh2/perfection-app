@@ -11,3 +11,4 @@ export const RESET='RESET'
 export const APPROVE='APPROVE'
 export const GET_ALL_TECH='GET_ALL_TECH'
 export const GET_ALL_CLIENTS='GET_ALL_CLIENTS'
+export const UPDATE_USER = "UPDATE_USER"

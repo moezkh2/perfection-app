@@ -3,17 +3,41 @@ import "./User.css";
 import 'semantic-ui-css/semantic.min.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { Button, Form, Input, Dimmer, Loader } from 'semantic-ui-react'
-import { getUser, updateUser } from '../../../Redux/actions/useractions'
-import {getServiceClient} from '../../../Redux/actions/serviceactions'
+import { getUser, updateUser,alerte } from '../../../Redux/actions/useractions'
+import Swal from "sweetalert2";
 function User() {
   let user = useSelector(state => state.userReducer.user);
   let tasks = useSelector(state => state.serviceReducer.service)
   let errors = useSelector(state => state.userReducer.errors)
+  const msg = useSelector(state => state.userReducer.msg)
   // const test=(e)=>{if(msg!=={}) {if(msg.name){return msg.name}} else return false  }
   const dispatch = useDispatch()
   const [useredit, setuseredit] = useState(user);
   useEffect(() => {
-      dispatch(getUser())}, [])
+    dispatch(getUser())
+  }, [])
+  useEffect(() => {
+   
+    if (msg) {
+      Swal.fire({
+        icon: 'success',
+        title: "user updated",
+        showConfirmButton: false,
+        timer: 1500
+      }).then((result) => {
+        dispatch(alerte())
+      })
+    }
+    if (errors) {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: "can not update user",
+      }).then((result) => {
+        dispatch(alerte())
+      })
+    }
+  }, [errors, msg])
   /* dispatch(getServiceClient(user._id, user.Role)) */
   const [password, setpassword] = useState('')
   const options = [
@@ -23,7 +47,7 @@ function User() {
     { key: 't', text: 'Plumbers', value: 'Plumbers' },
     { key: 't', text: 'Refrigeration', value: 'Refrigeration' },
     { key: 't', text: 'Mason', value: 'Mason' }]
-  if (user.Role === "client"||user.Role === "admin") {
+  if (user.Role === "client" || user.Role === "admin") {
     return (
       <div >
         <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
@@ -37,11 +61,11 @@ function User() {
               </svg></div>
             <h2 class="name">{user.name || "name"}</h2>
             <div class="title">{user.Role}</div>
-            <div class="actions">{(user.Role==='client')?
+            <div class="actions">{(user.Role === 'client') ?
               <div class="follow-info">
-                <h2><a href="#"><span>{Math.trunc(tasks.length/10) || "1"}</span><small>Level</small></a></h2>
-                <h2><a href="#"><span>{tasks?.length|| "0"}</span><small>{user.Role === "Client" ? "Commands" : "Tasks"}</small></a></h2>
-              </div>:null}
+                <h2><a href="#"><span>{Math.trunc(tasks.length / 10) || "1"}</span><small>Level</small></a></h2>
+                <h2><a href="#"><span>{tasks?.length || "0"}</span><small>{user.Role === "Client" ? "Commands" : "Tasks"}</small></a></h2>
+              </div> : null}
             </div>
             <div class="desc">Morgan has collected ants since they were six years old and now has many dozen ants but none in their pants.</div>
           </div>

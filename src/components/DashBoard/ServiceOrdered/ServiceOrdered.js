@@ -9,63 +9,63 @@ const ServiceOrdered = () => {
     const service = useSelector(state => state.serviceReducer?.service)
     const user = useSelector(state => state.userReducer?.user)
     const load = useSelector(state => state.serviceReducer.load)
+    const [tabelSlice, settabelSlice] = useState(service.slice(0, 4))
+    console.log('tabeleslice',tabelSlice)
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getServiceClient(user._id, user.Role))
     }, [])
     const modal = (serv) => {
-        <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
-            <div className="edit" style={{ width: "700px", height: '550px' }}>
-                <h2>Service</h2>
-                <Grid columns='equal'>
-                    <Grid.Row>
-                        <Grid.Column>
-                            <Segment>Category</Segment>
-                        </Grid.Column>
-                        <Grid.Column >
-                            <Segment>{user.Speciality}</Segment>
-                        </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row>
-                        <Grid.Column>
-                            <Segment>Client Name:</Segment>
-                        </Grid.Column>
-                        <Grid.Column >
-                            <Segment>{state.user.name}</Segment>
-                        </Grid.Column>
-                        <Grid.Column>
-                            <Segment>Client Name:</Segment>
-                        </Grid.Column>
-                        <Grid.Column>
-                            <Segment>{state.user.email}</Segment>
-                        </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row>
-                        <Grid.Column>
-                            <Segment>Technician Name:</Segment>
-                        </Grid.Column>
-                        <Grid.Column >
-                            <Segment>{user.name}</Segment>
-                        </Grid.Column>
-                        <Grid.Column>
-                            <Segment>Technician Name:</Segment>
-                        </Grid.Column>
-                        <Grid.Column>
-                            <Segment>{user.email}</Segment>
-                        </Grid.Column>
-                    </Grid.Row>
-
-                    <Grid.Row>
-                        <Grid.Column>
-                        <Segment>{serv.description}</Segment>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
-
-
-
+        return (
+            <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
+                <div className="edit" style={{ width: "700px", height: '400px' }}>
+                    <h2>Service</h2>
+                    <Grid columns='equal'>
+                        <Grid.Row>
+                            <Grid.Column>
+                                <Segment>Category</Segment>
+                            </Grid.Column>
+                            <Grid.Column >
+                                <Segment>{serv.Category}</Segment>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column>
+                                <Segment>Client Name:</Segment>
+                            </Grid.Column>
+                            <Grid.Column >
+                                <Segment>{/* {state.user.name} */}</Segment>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Segment>Client Email:</Segment>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Segment>{/* {state.user.email} */}</Segment>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column>
+                                <Segment>Technician Name:</Segment>
+                            </Grid.Column>
+                            <Grid.Column >
+                                <Segment>{user.name}</Segment>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Segment>Technician Name:</Segment>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Segment>{user.email}</Segment>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column>
+                                <Segment>{serv.description}</Segment>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                </div>
             </div>
-        </div>
+        )
     }
     const color = (el) => {
         if (el.Status == 'Accepted') return { backgroundColor: 'rgb(243, 141, 73)' }
@@ -73,11 +73,8 @@ const ServiceOrdered = () => {
         if (el.Status == 'Approved') return { backgroundColor: 'rgb(22, 173, 22)' }
         if (el.Status == 'On Going') return { backgroundColor: 'rgba(235, 231, 23, 0.877)', color: 'black' }
     }
-    console.log(service)
-    const [tabelSlice, settabelSlice] = useState(service?.slice(0, 4))
     /* const id_service = useSelector(state => state.serviceReducer.service._id) */
     const [ping, setPing] = useState(false)
-
     const handlePaginationChange = (e, page) => {
         let slice = 4
         if (page.activePage > 1) { slice = 4 * page.activePage }
@@ -93,7 +90,7 @@ const ServiceOrdered = () => {
 
         </div >)
     }
-    if (service.length === 0) {
+    if (service?.length === 0) {
         return (<div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
             <Message negative>
                 <Message.Header>Oups!!, there is no technician available</Message.Header>
@@ -122,8 +119,8 @@ const ServiceOrdered = () => {
                                     <Modal
                                         trigger={<Table.Cell>{el._id}</Table.Cell>}
                                         header='Command '{...el._id}
-                                        content='Call Benjamin regarding the reports.'
-                                        actions={['Snooze', { key: 'done', content: 'Done', positive: true }]}
+                                        content={modal(el)}
+                                        actions={[{ key: 'done', content: 'Done', positive: true }]}
                                     />
 
                                     <Table.Cell>{el.Category}</Table.Cell>

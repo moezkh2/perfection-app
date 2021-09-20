@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { FAIL, LOAD, USER_SUCCESS, LOGIN_USER_SUCCESS, GET_USER_SUCCESS,GET_TECHNICIAN_LIST,RESET,GET_ALL_CLIENTS, GET_ALL_TECH } from '../const'
+import { UPDATE_USER,FAIL, LOAD, USER_SUCCESS, LOGIN_USER_SUCCESS, GET_USER_SUCCESS,GET_TECHNICIAN_LIST,RESET,GET_ALL_CLIENTS, GET_ALL_TECH } from '../const'
 export const registerUser = (user, history) => async dispatch => {
     dispatch({ type: LOAD })
     try {
@@ -46,7 +46,8 @@ export const updateUser = (user) => async dispatch => {
                 'Authorization': localStorage.getItem("token")
             }
         })
-            dispatch(getUser())
+        dispatch({ type: UPDATE_USER, payload: result.data })
+        console.log(result)
     } catch (error) {
         console.log(error)
         dispatch({ type: FAIL, payload: error.response.data })
