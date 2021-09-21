@@ -21,14 +21,15 @@ try {
 //get
 router.get('/getservice/:user/:id',async(req,res)=>{
     try {let result
-        if (req.params.user==='technician') result=await service.find({TechnicientId:req.params.id})
-         if (req.params.user==='client') result=await service.find({ClientId:req.params.id})
-        res.send({service:result,msg:' get service'})
+        if (req.params.user==='technician') result=await service.find({"TechnicientId._id":req.params.id})
+         if (req.params.user==='client') result=await service.find({"ClientId._id":req.params.id})
+        res.send({service:result}) /* ,msg:' get service' */
     } catch (error) {
         console.log(error)
         res.status(400).send({msg:'can not get service'})
     }
 })
+//put
 router.put('/updateservice/:id',async(req,res)=>{
     try {
         let result=await service.findOneAndUpdate({_id:req.params.id},req.body)
@@ -37,6 +38,15 @@ router.put('/updateservice/:id',async(req,res)=>{
     } catch (error) {
         console.log(error)
         res.status(400).send({msg:'can not update service'})
+    }
+})
+router.get('/getservice/all',async(req,res)=>{
+    try {
+        let result=await service.find()
+        res.send({allservice:result})
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({msg:'can not get all service'})
     }
 })
 module.exports = router

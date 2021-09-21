@@ -6,15 +6,18 @@ import { Table, Pagination, Dimmer, Loader, Message, Button } from 'semantic-ui-
 
 export const Technicians = () => {
     const load = false
-   
+    const tech = useSelector(state => state.userReducer.tech)
     const dispatch = useDispatch()
     
     useEffect(() => {dispatch(getTechnicians())
     }, [])
-    const tech = useSelector(state => state.userReducer.tech)
     
-    const [tabelSlice, settabelSlice] = useState(tech?.slice(0, 4))
-    /* const id_service = useSelector(state => state.serviceReducer.service._id) */
+    
+    const [tabelSlice, settabelSlice] = useState()
+    
+    setTimeout(() => {
+        settabelSlice(tech?.slice(0, 4))
+    }, 2000);
 
     const handlePaginationChange = (e, page) => {
         let slice = 4

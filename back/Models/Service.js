@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
 const ServiceSchema= new mongoose.Schema({
     Category: {type:String,required:true},
     Price: {type:String,required:false},
-    ClientId: {type:String,required:true},
-    TechnicientId: {type:String,required:true},
+    ClientId: {type:Object,required:true},
+    TechnicientId: {type:Object,required:true},
     description:{type:String,required:true},
     date :{type:String,required:false},
     //ps:{type:array,required:false}

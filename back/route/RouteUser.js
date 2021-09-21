@@ -52,7 +52,10 @@ router.post("/login", async (req, res) => {
             // create token and send it to the user
             const token = await jwt.sign(payload, process.env.SecretOrKey, { expiresIn: '1h' })
             await delete result.PassWord;
-            res.send({ msg: "succeful login", token: `Bearer ${token}`, user: { name: result.name, email: result.email, Role: result.Role, Speciality: result.Speciality, phone: result.phone, address: result.address } })
+            if (result.IsBlocked) {
+                return res.status(400).send({ msg: "user blocked" })
+            }
+            res.send({ token: `Bearer ${token}`, user: { name: result.name, email: result.email, Role: result.Role, Speciality: result.Speciality, phone: result.phone, address: result.address } })
         } else {
             res.status(400).send({ msg: "fail login" })
         }
@@ -62,7 +65,7 @@ router.post("/login", async (req, res) => {
     }
 })
 // get the user if isAuth
-router.get("/profil", isAuth() ,async (req, res) => {
+router.get("/profil", isAuth(), async (req, res) => {
     res.send({ user: req.user })
 })
 // update the user information if isAuth
@@ -79,7 +82,7 @@ router.put("/update", isAuth(), updateRoles(), validation, async (req, res) => {
 router.get("/gettechnicianlist/:technician", isAuth(), async (req, res) => {
     try {
         let result = await user.find({ Speciality: req.params.technician })
-        if (result.length===0) { return res.send({ techlist: result, msg: 'no technician available' }) }
+        if (result.length === 0) { return res.send({ techlist: result, msg: 'no technician available' }) }
         res.send({ techlist: result, msg: 'technician list' })
     } catch (error) {
         console.log(error)
@@ -89,40 +92,40 @@ router.get("/gettechnicianlist/:technician", isAuth(), async (req, res) => {
 
 router.get("/getttechnicianlist/all", isAuth(), async (req, res) => {
     try {
-        let result = await user.find({ Role:'technician' })
-        if (result.length===0) { return res.send({ tech: result, msg: 'no technician available' }) }
+        let result = await user.find({ Role: 'technician' })
+        if (result.length === 0) { return res.send({ tech: result, msg: 'no technician available' }) }
         res.send({ tech: result, msg: 'All technician list' })
     } catch (error) {
         console.log(error)
         res.status(400).send({ msg: 'can not get all technician list' })
     }
 })
-router.delete('/technician/delete/:id',isAuth(),async (req, res)=>{
+router.delete('/technician/delete/:id', isAuth(), async (req, res) => {
     try {
-        let result =await user.findByIdAndRemove(req.params.id)
-        res.send({msg:'technician deleted'})
+        let result = await user.findByIdAndRemove(req.params.id)
+        res.send({ msg: 'technician deleted' })
     } catch (error) {
         console.log(error)
-        res.status(400).send({msg:'can not delete technician'})
+        res.status(400).send({ msg: 'can not delete technician' })
     }
 })
 router.get("/getclients/all", isAuth(), async (req, res) => {
     try {
-        let result = await user.find({ Role:'client' })
-        if (result.length===0) { return res.send({ client: result, msg: 'no client available' }) }
+        let result = await user.find({ Role: 'client' })
+        if (result.length === 0) { return res.send({ client: result, msg: 'no client available' }) }
         res.send({ client: result, msg: 'All client list' })
     } catch (error) {
         console.log(error)
         res.status(400).send({ msg: 'can not get all client list' })
     }
 })
-router.delete('/client/delete/:id',isAuth(),async (req, res)=>{
+router.delete('/client/delete/:id', isAuth(), async (req, res) => {
     try {
-        let result =await user.findByIdAndRemove(req.params.id)
-        res.send({msg:'client deleted'})
+        let result = await user.findByIdAndRemove(req.params.id)
+        res.send({ msg: 'client deleted' })
     } catch (error) {
         console.log(error)
-        res.status(400).send({msg:'can not delete client'})
+        res.status(400).send({ msg: 'can not delete client' })
     }
 })
 router.put("/adminupdate", isAuth(), async (req, res) => {

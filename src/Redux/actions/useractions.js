@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { FAIL, LOAD, USER_SUCCESS, LOGIN_USER_SUCCESS, GET_USER_SUCCESS,GET_TECHNICIAN_LIST,RESET,GET_ALL_CLIENTS, GET_ALL_TECH } from '../const'
+import { UPDATE_USER,FAIL, LOAD, USER_SUCCESS, LOGIN_USER_SUCCESS, GET_USER_SUCCESS,GET_TECHNICIAN_LIST,RESET,GET_ALL_CLIENTS, GET_ALL_TECH } from '../const'
 import { getServiceClient } from './serviceactions'
 export const registerUser = (user, history) => async dispatch => {
     dispatch({ type: LOAD })
@@ -18,8 +18,8 @@ export const loginUser = (user, history) => async dispatch => {
         let result = await axios.post('/user/login', user)
         dispatch({ type: USER_SUCCESS, payload: result.data })
         console.log(result.data.user.Role)
-        if(result.data.user.Role==='admin')history.push("/dashboardadmin/user")
-        else history.push("/dashboard/user")
+        if(result.data.user.Role==='admin')history.push("/dashboardadmin/")
+        else history.push("/dashboard/")
     } catch (error) {
         console.log(error)
         dispatch({ type: FAIL, payload: error.response.data.msg })
@@ -48,7 +48,8 @@ export const updateUser = (user) => async dispatch => {
                 'Authorization': localStorage.getItem("token")
             }
         })
-            dispatch(getUser())
+        dispatch({ type: UPDATE_USER, payload: result.data.msg })
+        console.log(result)
     } catch (error) {
         console.log(error)
         dispatch({ type: FAIL, payload: error.response.data })

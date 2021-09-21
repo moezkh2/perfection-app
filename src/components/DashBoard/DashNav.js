@@ -15,10 +15,10 @@ const DashNav = () => {
             onSelect={(selected) => {
                 // Add your code here
                 switch (selected) {
+                    case 'home':history.push('/dashboard/')
+                    break;
                     case "sign-out":
                         localStorage.removeItem("token")
-                        // window.location.reload(true);
-                        // history.push('/')
                         break;
                     case "servicesrdered":
                         history.push('/dashboard/servicesrdered')
@@ -56,7 +56,15 @@ const DashNav = () => {
             }}
         >
             <SideNav.Toggle />
-            <SideNav.Nav defaultSelected="user">
+            <SideNav.Nav defaultSelected="home">
+                <NavItem eventKey="home" >
+                    <NavIcon>
+                        <Icon name='home' />
+                    </NavIcon>
+                    <NavText>
+                        Home
+                    </NavText>
+                </NavItem>
                 <NavItem eventKey="user" >
                     <NavIcon>
                         <Icon name='user' />
@@ -109,16 +117,18 @@ const DashNav = () => {
                     <NavIcon>
                         <Icon name='history' />
                     </NavIcon>
-                    <NavText>
-                        Service history
-                    </NavText>
+                    {user.Role==='client'?<NavText>
+                        Services
+                    </NavText>:<NavText>
+                        Tasks
+                    </NavText>}
                 </NavItem>
                 <NavItem eventKey="sign-out">
                     <NavIcon>
                     <Link to='/'><Icon name='sign-out' /></Link>
                     </NavIcon>
                     <NavText>
-                        sign-out
+                        Logout
                     </NavText>
                 </NavItem>
             </SideNav.Nav>

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { FAIL, LOAD, SERVICE_SUCCESS,FAIL_SERVICE,RESET } from '../const'
+import { FAIL, LOAD, SERVICE_SUCCESS,FAIL_SERVICE,RESET,GET_ALL_SERVICE } from '../const'
 export const getServiceClient=(id,user)=>async dispatch=>{
     dispatch({type:LOAD})
     try {
@@ -15,6 +15,7 @@ export const addService=(service,user)=>async dispatch=>{
     dispatch({type:LOAD})
     try {
         let result=await axios.post('/service/addservice',service)
+        dispatch({type:SERVICE_SUCCESS,payload:result.data})
         dispatch(getServiceClient(user._id,user.Role))
     } catch (error) {
         console.log(error)
@@ -24,9 +25,7 @@ export const addService=(service,user)=>async dispatch=>{
 export const updateService=(id,user,update)=> async dispatch=>{
     dispatch({type:LOAD})
     try {
-
         let result=await axios.put(`/service/updateservice/${id}`,update)
-        console.log(id)
         dispatch(getServiceClient(user._id,user.Role))
     } catch (error) {
         console.log(error)
@@ -35,4 +34,13 @@ export const updateService=(id,user,update)=> async dispatch=>{
 }
 export const alerte =()=>{
     return {type:RESET}
+ }
+ export const getAllServices=()=>async dispatch=>{
+dispatch({type:LOAD})
+try {
+    let result=await axios.get('/service/getservice/all')
+    dispatch({type:GET_ALL_SERVICE,payload:result.data})
+} catch (error) {
+    dispatch({type:FAIL})
+}
  }

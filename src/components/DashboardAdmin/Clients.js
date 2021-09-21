@@ -11,8 +11,10 @@ const Clients = () => {
     useEffect(() => {dispatch(getClients())
     }, [])
     
-    const [tabelSlice, settabelSlice] = useState(clients?.slice(0, 4))
-    /* const id_service = useSelector(state => state.serviceReducer.service._id) */
+    const [tabelSlice, settabelSlice] = useState()
+    setTimeout(() => {
+        settabelSlice(clients?.slice(0, 4))
+    }, 2000);
 
     const handlePaginationChange = (e, page) => {
         let slice = 4
