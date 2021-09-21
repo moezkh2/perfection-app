@@ -122,7 +122,6 @@ const ServiceOrdered = () => {
                                 <Table.Row >
                                     <Modal
                                         trigger={<Table.Cell>{el._id}</Table.Cell>}
-                                        header='Command '{...el._id}
                                         content={modal(el)}
                                         actions={[{ key: 'done', content: 'Done', positive: true }]}
                                     />

@@ -22,17 +22,28 @@
   border: 1px solid rgb(190, 190, 190);
 }
 .card .banner {
-  background-image: url("https://images.unsplash.com/photo-1545703549-7bdb1d01b734?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ");
+  background-image: url("https://cdn1.vectorstock.com/i/1000x1000/66/20/electric-technician-man-vector-8476620.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 11rem;
+  height: 20rem;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   box-sizing: border-box;
 }
-.card .banner svg {
+.card .bannerclient {
+  background-image: url("https://st2.depositphotos.com/3071417/8850/v/450/depositphotos_88506986-stock-illustration-customer-support-avatar-icon.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 20rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  box-sizing: border-box;
+}
+ .svg {
   background-color: #fff;
   width: 8rem;
   height: 8rem;
