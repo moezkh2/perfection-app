@@ -19,7 +19,8 @@ const Homepage = () => {
     const approved=service.filter((el)=>el.Status==='Approved')
     const ongoing=service.filter((el)=>el.Status==='On Going')
     const denied=service.filter((el)=>el.Status==='Denied')
-    const tab = [approved.length, denied.length,ongoing.length]
+    const waiting=service.filter((el)=>el.Status==='waiting')
+    const tab = [approved.length, denied.length,ongoing.length,waiting.length]
     return (
         <div style={{paddingTop:'80px'}}>
             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", width: "80%", margin: "0 auto"}}>
@@ -57,7 +58,7 @@ const Homepage = () => {
             </div>
             <div>
                 <div style={{width:"400px",height:"400px" ,margin:"auto"}}>
-                    <Doughnut type='pie' data={{ labels: ['Tasks approved', 'Tasks denied','Tasks on going'], datasets: [{ label: 'Points', backgroundColor: ['#5fda12', '#e63a29', '#e2c914'], data: tab }] }} /></div>
+                    <Doughnut type='pie' data={{ labels: ['Tasks approved', 'Tasks denied','Tasks on going','Tasks waiting'], datasets: [{ label: 'Points', backgroundColor: ['#5fda12', '#e63a29', '#e2c914','#337ab7'], data: tab }] }} /></div>
             </div>
         </div>
     )
