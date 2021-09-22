@@ -1,9 +1,8 @@
 const router = require('express').Router();
 const service = require('../Models/Service');
-const { serviceRules, validation } = require('../middlewere/Validator');
 
 //post
-router.post('/addservice',serviceRules(),validation, async(req,res)=>{
+router.post('/addservice', async(req,res)=>{
 try {
     let newService= new service({
         Category:req.body.Category,

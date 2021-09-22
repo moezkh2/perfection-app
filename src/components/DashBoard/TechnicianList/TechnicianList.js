@@ -2,6 +2,11 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Card, Icon, Message, Dimmer, Loader, Image, Button, Modal } from 'semantic-ui-react'
 import electrician from './pictures/electrician.jpg'
+import Mechanic from './pictures/mechanic.jpg'
+import Decorator from './pictures/gypsum-worker.jpg'
+import Plumber from './pictures/plumber.jpg'
+import Mason from './pictures/mason.jpg'
+import Refrigeration from './pictures/refrigeration.jpg'
 import {Link} from 'react-router-dom'
 
 const TechnicianList = () => {
@@ -29,8 +34,15 @@ const TechnicianList = () => {
             {techlist.map((el) => {
                 return (
                     < div class="card" >
-                        <Card>
-                            <Link to ={`/dashboard/serviceform/${el._id}`} ><Image src={electrician} wrapped /></Link>
+                        <Card> 
+                            <Link to ={`/dashboard/serviceform/${el._id}`}>
+                               {el.Speciality==='Electricity'? <Image src={electrician} wrapped />:null}
+                                { (el.Speciality==='Mechanic')?<Image src={Mechanic} wrapped />:null}
+                                {(el.Speciality==='Decorator')?<Image src={Decorator} wrapped />:null}
+                                {(el.Speciality==='Plumber')?<Image src={Plumber} wrapped />:null }   
+                                {(el.Speciality==='Refrigeration')?<Image src={Refrigeration} wrapped />:null}
+                                {(el.Speciality==='Mason')?<Image src={Mason} wrapped />:null}
+                            </Link> 
                             <Card.Content>
                                 <Card.Header>{el.name}</Card.Header>
                                 <Card.Meta>{el.Speciality}</Card.Meta>

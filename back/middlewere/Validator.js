@@ -18,16 +18,12 @@ exports.updateRoles=()=>[
     check("address","Address is required").notEmpty(),
     check("phone","Phone is required").notEmpty()
 ]
-exports.serviceRules=()=>[
-/*     check("description","description is required").notEmpty()
- */]
 exports.validation = (req,res,next)=>{
     const errors= validationResult(req)
     if(!errors.isEmpty()){
         let err=errors.errors.map((el)=>({[el.param]:el.msg}))
         var obj=err[0]
         for(let i=1;i<err.length;i++){obj={...obj,...err[i]}}
-        
         return res.status(450).send({msg:obj})
     }
     next();}

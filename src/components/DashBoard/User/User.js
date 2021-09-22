@@ -42,8 +42,8 @@ function User() {
   const options = [
     { key: 'c', text: 'Electricity', value: 'Electricity' },
     { key: 't', text: 'Mechanic', value: 'Mechanic' },
-    { key: 'c', text: 'Gypsum', value: 'Gypsum' },
-    { key: 't', text: 'Plumbers', value: 'Plumbers' },
+    { key: 'c', text: 'Decorator', value: 'Decorator' },
+    { key: 't', text: 'Plumber', value: 'Plumber' },
     { key: 't', text: 'Refrigeration', value: 'Refrigeration' },
     { key: 't', text: 'Mason', value: 'Mason' }]
   if (user.Role === "client" || user.Role === "admin") {
@@ -58,7 +58,7 @@ function User() {
             <div class="actions">{(user.Role === 'client') ?
               <div class="follow-info">
                 <h2><a href="#"><span>{Math.trunc(tasks.length / 10) || "1"}</span><small>Level</small></a></h2>
-                <h2><a href="#"><span>{tasks?.length || "0"}</span><small>{user.Role === "Client" ? "Commands" : "Tasks"}</small></a></h2>
+                <h2><a href="#"><span>{tasks?.length || 0}</span><small>Commands</small></a></h2>
               </div> : null}
             </div>
           </div>
@@ -136,8 +136,8 @@ function User() {
           <div class="title" style={{fontSize:'20px'}}>Technician</div>
           <div class="actions">
             <div class="follow-info">
-              <h2><a href=""><span>{user.Level || "1"}</span><small>Level</small></a></h2>
-              <h2><a href=""><span>{user.Role === "Client" ? user.NbrOfCommands || "0" : user.NbrOfTasks || "0"}</span><small>{user.Role === "Client" ? "Commands" : "Tasks"}</small></a></h2>
+              <h2><a href=""><span>{Math.trunc(tasks.length / 10) || 1}</span><small>Level</small></a></h2>
+              <h2><a href=""><span>{tasks.length || 0}</span><small> Tasks</small></a></h2>
             </div>
           </div>
         </div>
@@ -207,7 +207,7 @@ function User() {
               />
             </Form.Group>
             <br /><br />
-            <Form.Field ><Button content='Update profile' primary onClick={() => { (!useredit.Speciality) ? alert('enter speciality') : dispatch(updateUser({ ...useredit, email: user.email })) }} /></Form.Field>
+            <Form.Field ><Button content='Update profile' primary onClick={() => { (!useredit.Speciality) ? alert('enter speciality') : dispatch(updateUser({ ...useredit, email: user.email,Level:Math.trunc(tasks.length / 10) || 1,NbrOfTasks:tasks.length })) }} /></Form.Field>
           </Form>
         </div>
       </div>
