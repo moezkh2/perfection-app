@@ -4,7 +4,6 @@ import { Header } from "./header";
 import { About } from "./about";
 import  Services  from "./services";
 import { Gallery } from "./gallery";
-import { Testimonials } from "./testimonials";
 import { Team } from "./Team";
 import { Contact } from "./contact";
 import Signup from "../signup/Signup";
@@ -22,7 +21,7 @@ const Home = () => {
       <About data={landingPageData.About} />
       <Services data={landingPageData.Services} />
       <Gallery />
-      <Testimonials data={landingPageData.Testimonials} />
+      {/* <Testimonials data={landingPageData.Testimonials} /> */}
       <Team data={landingPageData.Team} />
       {state?<Login/>:<Signup/>}
       <Contact data={landingPageData.Contact} />

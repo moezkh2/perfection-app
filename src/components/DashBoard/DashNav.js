@@ -19,6 +19,7 @@ const DashNav = () => {
                     break;
                     case "sign-out":
                         localStorage.removeItem("token")
+                        history.push('/')
                         break;
                     case "servicesrdered":
                         history.push('/dashboard/servicesrdered')
