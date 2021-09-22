@@ -14,6 +14,6 @@ const ServiceSchema= new mongoose.Schema({
     TechnicienScoreGained: {type:Number,required:false},
     UserComment: {type:String,required:false},
     TechnicienComment: {type:String,required:false},
-    //chat:[{user:""},{tech:""},{user:""}]
+    chat:{type:Array,required:false,default:[] }
 })
 module.exports= mongoose.model('Service',ServiceSchema)
