@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import './ServiceOrdered.css'
+import { useHistory } from 'react-router-dom'
 import { Table, Pagination, Dropdown, Dimmer, Loader, Message, Modal, Button, Grid, Segment, Form } from 'semantic-ui-react'
 import ReactStars from "react-rating-stars-component"
 import { useSelector, useDispatch } from 'react-redux'
 import { updateService } from '../../../Redux/actions/serviceactions'
 import { getUser } from '../../../Redux/actions/useractions'
+import { Chat } from '../Chat/Chat'
 const ServiceOrdered = () => {
+    let history = useHistory()
+    const [open, setOpen] = React.useState(false)
     const dispatch = useDispatch()
     const service = useSelector(state => state.serviceReducer.service)
     const load = useSelector(state => state.serviceReducer.load)
@@ -16,10 +20,10 @@ const ServiceOrdered = () => {
     const modal = (serv) => {
         return (
             <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
-                <div className="edit" style={{ width: "700px", height: '550px' }}>
+                <div style={{ width: "800px", height: '400px' }}>
                     <h2>Service</h2>
-                    <Grid columns='equal'>
-                        <Grid.Row>
+                    <Grid >
+                        <Grid.Row columns='equal'>
                             <Grid.Column>
                                 <Segment>Category</Segment>
                             </Grid.Column>
@@ -27,7 +31,7 @@ const ServiceOrdered = () => {
                                 <Segment>{serv.TechnicientId.Speciality}</Segment>
                             </Grid.Column>
                         </Grid.Row>
-                        <Grid.Row>
+                        <Grid.Row columns='equal'>
                             <Grid.Column>
                                 <Segment>Client Name:</Segment>
                             </Grid.Column>
@@ -41,7 +45,7 @@ const ServiceOrdered = () => {
                                 <Segment>{serv.ClientId.email}</Segment>
                             </Grid.Column>
                         </Grid.Row>
-                        <Grid.Row>
+                        <Grid.Row columns='equal'>
                             <Grid.Column>
                                 <Segment>Technician Name:</Segment>
                             </Grid.Column>
@@ -56,10 +60,15 @@ const ServiceOrdered = () => {
                             </Grid.Column>
                         </Grid.Row>
 
-                        <Grid.Row>
-                            <Grid.Column>
+                        <Grid.Row >
+                            <Grid.Column computer="3">
+                                <Segment width={1}>Description: </Segment>
+                            </Grid.Column>
+                            <Grid.Column computer="13">
                                 <Segment>{serv.description}</Segment>
                             </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
                         </Grid.Row>
                     </Grid>
                 </div>
@@ -73,9 +82,9 @@ const ServiceOrdered = () => {
         if (el.Status == 'On Going') return { backgroundColor: 'rgba(235, 231, 23, 0.877)', color: 'black' }
     }
     const [tabelSlice, settabelSlice] = useState()
-    setTimeout(() => {
-        settabelSlice(service?.slice(0, 4))
-    }, 2000);
+
+    /*   */
+
 
     /* const id_service = useSelector(state => state.serviceReducer.service._id) */
     const [ping, setPing] = useState(false)
@@ -87,17 +96,15 @@ const ServiceOrdered = () => {
 
     if (load) {
         return (<div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
-
             <Dimmer active inverted>
                 <Loader size='large'>Loading</Loader>
             </Dimmer>
-
         </div >)
     }
     if (service?.length === 0) {
         return (<div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
-            <Message negative>{(user.Role==='client')?
-                <Message.Header>Oups!!,You have no ordered service</Message.Header>:
+            <Message negative>{(user.Role === 'client') ?
+                <Message.Header>Oups!!,You have no ordered service</Message.Header> :
                 <Message.Header>Oups!!,You have no task</Message.Header>}
             </Message>
         </div >)
@@ -122,10 +129,20 @@ const ServiceOrdered = () => {
                                 <Table.Row >
                                     <Modal
                                         trigger={<Table.Cell>{el._id}</Table.Cell>}
-                                        content={modal(el)}
-                                        actions={[{ key: 'done', content: 'Done', positive: true }]}
-                                    />
+                                        onClose={() => setOpen(false)}
+                                        onOpen={() => setOpen(true)}
+                                        open={open}
+                                    >
+                                        <Modal.Content style={{ backgroundColor: "#f4f3ef" }}>
 
+                                            {modal(el)}
+
+                                        </Modal.Content >
+                                        <Modal.Actions>
+                                            <Button onClick={() => setOpen(false)}>Cancel</Button>
+                                            <Button primary onClick={() => history.push("/dashboard/chat", { serv: el })}>Reply</Button>
+                                        </Modal.Actions>
+                                    </Modal>
                                     <Table.Cell>{el.Category}</Table.Cell>
                                     <Table.Cell>{el.date}</Table.Cell>
                                     <Table.Cell>
@@ -149,7 +166,7 @@ const ServiceOrdered = () => {
                                     </Table.Cell>
                                 </Table.Row>
                             </Table.Body>)
-                    }) : <h2>...loading</h2>
+                    }) : /* <h2>...loading</h2> */ settabelSlice(service?.slice(0, 4))
                     }
                     <Table.Footer>
                         <Table.Row>
