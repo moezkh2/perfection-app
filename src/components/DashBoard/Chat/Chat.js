@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import { React, useState } from 'react'
 import { Button, Comment, Form } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import { useSelector, useDispatch } from 'react-redux'
@@ -7,10 +7,8 @@ export const Chat = (props) => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.userReducer.user);
     const service = useSelector(state => state.serviceReducer.service)
-
     var ser = service.filter((el) => el._id === props.location.state.serv._id)
-    console.log(ser[0], "serserserser")
-    const [chatt, setchatt] = useState(ser[0].chat)
+    const [chatt, setchatt] = useState({})
     return (
         <div style={{ margin: "auto", width: "60%", paddingTop: "50px" }} >
 
@@ -47,9 +45,9 @@ export const Chat = (props) => {
 
                     <Form >
                         <Form.TextArea
-                            onChange={(e) => { e.preventDefault(); setchatt([...chatt, { [user.name]: e.target.value }]) }} />
+                            onChange={(e) => {e.preventDefault(); setchatt({...chatt, [user.name]: e.target.value })}} />
                         <div>
-                            <Button primary onClick={(e) => { e.preventDefault(); dispatch(updateService(ser[0]._id, user, { ...ser[0], chat: chatt })) }}>Reply</Button>
+                            <Button primary onClick={(e) => {e.preventDefault(); dispatch(updateService(ser[0]._id, user,{...ser[0].chat,chatt})) }}>Reply</Button>
                         </div>
 
                     </Form>

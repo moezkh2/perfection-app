@@ -32,7 +32,6 @@ router.get('/getservice/:user/:id',async(req,res)=>{
 router.put('/updateservice/:id',async(req,res)=>{
     try {
         let result=await service.findOneAndUpdate({_id:req.params.id},req.body)
-        console.log(req.body,{id:req.params.id})
         res.send({result:result,msg:'service updated'})
     } catch (error) {
         console.log(error)
