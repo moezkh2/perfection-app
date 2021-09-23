@@ -42,14 +42,12 @@ export const Chat = (props) => {
                             <Comment.Text>I re-tweeted this.</Comment.Text>
                         </Comment.Content>
                     </Comment>
-
                     <Form >
                         <Form.TextArea
                             onChange={(e) => {e.preventDefault(); setchatt({...chatt, [user.name]: e.target.value })}} />
                         <div>
-                            <Button primary onClick={(e) => {e.preventDefault(); dispatch(updateService(ser[0]._id, user,{...ser[0].chat,chatt})) }}>Reply</Button>
+                            <Button primary onClick={(e) => {e.preventDefault(); dispatch(updateService(ser[0]._id, user,{...ser[0],chat:[...ser[0].chat,chatt]})) }}>Reply</Button>
                         </div>
-
                     </Form>
                 </Comment.Group>
             </div>
