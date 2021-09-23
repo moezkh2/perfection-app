@@ -54,7 +54,7 @@ function User() {
             <div class="bannerclient"><img className='svg' src='https://cdn1.iconfinder.com/data/icons/customer-and-service-3/512/7-512.png'/>
               </div>
             <h2 class="name">{user.name || "name"}</h2>
-            <div class="title" style={{fontSize:'20px'}}>Client</div>
+            {(user.Role === 'client') ?<div class="title" style={{fontSize:'20px'}}>Client</div>:<div class="title" style={{fontSize:'20px'}}>Admin</div>}
             <div class="actions">{(user.Role === 'client') ?
               <div class="follow-info">
                 <h2><a href="#"><span>{Math.trunc(tasks.length / 10) || "1"}</span><small>Level</small></a></h2>

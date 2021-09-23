@@ -6,7 +6,6 @@ import ReactStars from "react-rating-stars-component"
 import { useSelector, useDispatch } from 'react-redux'
 import { updateService } from '../../../Redux/actions/serviceactions'
 import { getUser } from '../../../Redux/actions/useractions'
-import { Chat } from '../Chat/Chat'
 const ServiceOrdered = () => {
     let history = useHistory()
     const [open, setOpen] = React.useState(false)
@@ -14,65 +13,79 @@ const ServiceOrdered = () => {
     const service = useSelector(state => state.serviceReducer.service)
     const load = useSelector(state => state.serviceReducer.load)
     const user = useSelector(state => state.userReducer.user);
+    const [elprop, setelprop] = useState()
     useEffect(() => {
         dispatch(getUser())
     }, [])
     const modal = (serv) => {
+        console.log(serv, open, "serprops")
         return (
-            <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
-                <div style={{ width: "800px", height: '400px' }}>
-                    <h2>Service</h2>
-                    <Grid >
-                        <Grid.Row columns='equal'>
-                            <Grid.Column>
-                                <Segment>Category</Segment>
-                            </Grid.Column>
-                            <Grid.Column >
-                                <Segment>{serv.TechnicientId.Speciality}</Segment>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row columns='equal'>
-                            <Grid.Column>
-                                <Segment>Client Name:</Segment>
-                            </Grid.Column>
-                            <Grid.Column >
-                                <Segment>{serv.ClientId.name}</Segment>
-                            </Grid.Column>
-                            <Grid.Column>
-                                <Segment>Client Email:</Segment>
-                            </Grid.Column>
-                            <Grid.Column>
-                                <Segment>{serv.ClientId.email}</Segment>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row columns='equal'>
-                            <Grid.Column>
-                                <Segment>Technician Name:</Segment>
-                            </Grid.Column>
-                            <Grid.Column >
-                                <Segment>{serv.TechnicientId.name}</Segment>
-                            </Grid.Column>
-                            <Grid.Column>
-                                <Segment>Technician Email:</Segment>
-                            </Grid.Column>
-                            <Grid.Column>
-                                <Segment>{serv.TechnicientId.email}</Segment>
-                            </Grid.Column>
-                        </Grid.Row>
-
-                        <Grid.Row >
-                            <Grid.Column computer="3">
-                                <Segment width={1}>Description: </Segment>
-                            </Grid.Column>
-                            <Grid.Column computer="13">
-                                <Segment>{serv.description}</Segment>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                        </Grid.Row>
-                    </Grid>
-                </div>
-            </div>
+            <Modal
+                /* trigger={id} */
+                onClose={() => setOpen(false)}
+                onOpen={() => setOpen(true)}
+                open={open}
+            >
+                <Modal.Content style={{ backgroundColor: "#f4f3ef" }}>
+                    <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
+                        <div style={{ width: "800px", height: '400px' }}>
+                            <h2>Service</h2>
+                            <Grid >
+                                <Grid.Row columns='equal'>
+                                    <Grid.Column>
+                                        <Segment>Category</Segment>
+                                    </Grid.Column>
+                                    <Grid.Column >
+                                        <Segment>{serv?.TechnicientId.Speciality}</Segment>
+                                    </Grid.Column>
+                                </Grid.Row>
+                                <Grid.Row columns='equal'>
+                                    <Grid.Column>
+                                        <Segment>Client Name:</Segment>
+                                    </Grid.Column>
+                                    <Grid.Column >
+                                        <Segment>{serv?.ClientId.name}</Segment>
+                                    </Grid.Column>
+                                    <Grid.Column>
+                                        <Segment>Client Email:</Segment>
+                                    </Grid.Column>
+                                    <Grid.Column>
+                                        <Segment>{serv?.ClientId.email}</Segment>
+                                    </Grid.Column>
+                                </Grid.Row>
+                                <Grid.Row columns='equal'>
+                                    <Grid.Column>
+                                        <Segment>Technician Name:</Segment>
+                                    </Grid.Column>
+                                    <Grid.Column >
+                                        <Segment>{serv?.TechnicientId.name}</Segment>
+                                    </Grid.Column>
+                                    <Grid.Column>
+                                        <Segment>Technician Email:</Segment>
+                                    </Grid.Column>
+                                    <Grid.Column>
+                                        <Segment>{serv?.TechnicientId.email}</Segment>
+                                    </Grid.Column>
+                                </Grid.Row>
+                                <Grid.Row >
+                                    <Grid.Column computer="3">
+                                        <Segment width={1}>Description: </Segment>
+                                    </Grid.Column>
+                                    <Grid.Column computer="13">
+                                        <Segment>{serv?.description}</Segment>
+                                    </Grid.Column>
+                                </Grid.Row>
+                                <Grid.Row>
+                                </Grid.Row>
+                            </Grid>
+                        </div>
+                    </div>
+                </Modal.Content >
+                <Modal.Actions>
+                    <Button onClick={() => setOpen(false)}>Cancel</Button>
+                    <Button primary onClick={() => { history.push("/dashboard/chat", { serv: serv }) }}>Reply</Button>
+                </Modal.Actions>
+            </Modal >
         )
     }
     const color = (el) => {
@@ -127,22 +140,8 @@ const ServiceOrdered = () => {
                         return (
                             <Table.Body>
                                 <Table.Row >
-                                    <Modal
-                                        trigger={<Table.Cell>{el._id}</Table.Cell>}
-                                        onClose={() => setOpen(false)}
-                                        onOpen={() => setOpen(true)}
-                                        open={open}
-                                    >
-                                        <Modal.Content style={{ backgroundColor: "#f4f3ef" }}>
-
-                                            {modal(el)}
-
-                                        </Modal.Content >
-                                        <Modal.Actions>
-                                            <Button onClick={() => setOpen(false)}>Cancel</Button>
-                                            <Button primary onClick={() => history.push("/dashboard/chat", { serv: el })}>Reply</Button>
-                                        </Modal.Actions>
-                                    </Modal>
+                                    <Table.Cell onClick={(e) => { setOpen(true); setelprop(el) }}>{(el._id)}</Table.Cell>
+                                    {modal(elprop)}
                                     <Table.Cell>{el.Category}</Table.Cell>
                                     <Table.Cell>{el.date}</Table.Cell>
                                     <Table.Cell>
@@ -161,7 +160,7 @@ const ServiceOrdered = () => {
                                                 </Dropdown.Menu>
                                             </Dropdown>}
                                     </Table.Cell>
-                                    <Table.Cell>{(user.Role === 'client') ? <ReactStars isHalf={true} edit={true} value={1} onChange={(value) => { dispatch(updateService(el._id, user, { Rating: value })); setPing(!ping) }} /> :
+                                    <Table.Cell>{(user.Role === 'client') ? <ReactStars isHalf={true} edit={true} onChange={(value) => { dispatch(updateService(el._id, user, { Rating: value })); setPing(!ping) }} value={el.Rating} /> :
                                         <ReactStars isHalf={true} edit={false} value={el.Rating} />}
                                     </Table.Cell>
                                 </Table.Row>
@@ -191,7 +190,7 @@ const ServiceOrdered = () => {
                 </Table>
 
             </div>
-        </div>
+        </div >
 
     )
 }
