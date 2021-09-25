@@ -34,7 +34,7 @@
   },
   "scripts": {
     "buildd": "npm run build",
-    "install-client": "npm install",
+    "install-client": "npm install && cd back && npm install",
     "herocku-postbuild": "npm run install-client && npm run buildd",
     "start": "node server.js",
     "build": "react-scripts build",

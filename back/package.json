@@ -4,10 +4,6 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "build": "cd ../ && npm run build",
-    "install-client": "cd ../ && npm install",
-    "herocku-postbuild": "npm run install-client && npm run build",
-    "start": "node server.js",
     "back": "nodemon server.js",
     "front": "cd ../ && npm start ",
     "dev": "concurrently \"npm run back\" \"npm run front\""
