@@ -4,6 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "build": "cd ../ && npm run build",
+    "install-client": "cd ../ && npm install",
+    "herocku-postbuild": "npm run install-client && npm run build",
+    "start": "node server.js",
     "back": "nodemon server.js",
     "front": "cd ../ && npm start ",
     "dev": "concurrently \"npm run back\" \"npm run front\""
@@ -17,7 +21,7 @@
     "express": "^4.17.1",
     "express-validator": "^6.12.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.2",
+    "mongoose": "^6.0.7",
     "nodemon": "^2.0.12",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0"
