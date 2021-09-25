@@ -7,7 +7,7 @@ app.use(express.json())
 app.use("/user", require('./route/RouteUser'))
 app.use("/service", require('./route/RouteService'))
 if (process.env.NODE_ENV === "production") {
-    app.use(express.static('../build'))
+    app.use(express.static('./client/build'))
 
 }
 app.listen(process.env.PORT, (err) => {
