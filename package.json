@@ -36,7 +36,7 @@
     "buildd": "npm run build",
     "install-client": "npm install && cd back && npm install",
     "herocku-postbuild": "npm run install-client && npm run buildd",
-    "start": "node server.js",
+    "start": "cd back && node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
