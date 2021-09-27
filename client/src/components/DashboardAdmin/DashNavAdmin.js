@@ -8,9 +8,10 @@ const DashNav = () => {
     return (
         <SideNav
             onSelect={(selected) => {
-                // Add your code here
                 switch (selected) {
-                    case 'home':history.push('/dashboardAdmin/')
+                    case 'home':history.push('/')
+                    break;
+                    case 'dashboard':history.push('/dashboardAdmin/')
                     break;
                     case "sign-out":
                         localStorage.removeItem("token")
@@ -35,13 +36,21 @@ const DashNav = () => {
             }}
         >
             <SideNav.Toggle />
-            <SideNav.Nav defaultSelected="home">
+            <SideNav.Nav defaultSelected="dashboard">
             <NavItem eventKey="home" >
+                    <NavIcon>
+                        <Icon name='reply' />
+                    </NavIcon>
+                    <NavText>
+                        Home
+                    </NavText>
+                </NavItem>
+                <NavItem eventKey="dashboard" >
                     <NavIcon>
                         <Icon name='home' />
                     </NavIcon>
                     <NavText>
-                        Home
+                        Dashboard
                     </NavText>
                 </NavItem>
                 <NavItem eventKey="user" >
@@ -52,7 +61,6 @@ const DashNav = () => {
                         Profil
                     </NavText>
                 </NavItem>
-
                 <NavItem >
                     <NavIcon>
                         <Icon name='sitemap' />
@@ -91,5 +99,4 @@ const DashNav = () => {
         </SideNav >
     )
 }
-
 export default DashNav

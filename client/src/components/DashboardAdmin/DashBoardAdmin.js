@@ -20,5 +20,4 @@ const DashBoardAdmin = ({match}) => {
         </div>
     )
 }
-
 export default DashBoardAdmin

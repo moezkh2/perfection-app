@@ -3,37 +3,27 @@ import {React,useEffect,useState} from 'react'
 import { useSelector,useDispatch } from 'react-redux'
 import '../DashBoard/ServiceOrdered/ServiceOrdered.css'
 import { Table, Pagination, Dimmer, Loader, Message, Button } from 'semantic-ui-react'
-
 export const Technicians = () => {
     const load = false
     const tech = useSelector(state => state.userReducer.tech)
     const dispatch = useDispatch()
-    
     useEffect(() => {dispatch(getTechnicians())
-    }, [])
-    
-    
+    }, [dispatch])
     const [tabelSlice, settabelSlice] = useState()
-    
     setTimeout(() => {
         settabelSlice(tech?.slice(0, 4))
     }, 2000);
-
     const handlePaginationChange = (e, page) => {
         let slice = 4
         if (page.activePage > 1) { slice = 4 * page.activePage }
         settabelSlice(tech?.slice(slice - 4, slice))
     }
-
     if (load) {
         return (<div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
-
             <Dimmer active inverted>
                 <Loader size='large'>Loading</Loader>
             </Dimmer>
-
-        </div >)
-    }
+        </div >)}
     if (tech?.length === 0) {
         return (<div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
             <Message negative>
@@ -45,7 +35,7 @@ export const Technicians = () => {
     return (
         <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }} >
             <div className="ServiceOrderedDiv">
-                <h1>Ordered Service</h1>
+                <h1>Technicians</h1>
                 <Table celled selectable >
                     <Table.Header>
                         <Table.Row>
@@ -56,7 +46,7 @@ export const Technicians = () => {
                             <Table.HeaderCell>Action</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
-                    {tech?tech.filter(el=>el.IsApproved===true).map((el) => {
+                    {tabelSlice?tabelSlice.filter(el=>el.IsApproved===true||el.Speciality).map((el) => {
                         return (
                             <Table.Body>
                                 <Table.Row>
@@ -85,7 +75,6 @@ export const Technicians = () => {
                                     size='mini'
                                     siblingRange={1}
                                     totalPages={Math.ceil((tech?.length) / 4)}
-                                    // Heads up! All items are powered by shorthands, if you want to hide one of them, just pass `null` as value
                                     ellipsisItem={null}
                                     firstItem={undefined}
                                     lastItem={undefined}
@@ -96,9 +85,7 @@ export const Technicians = () => {
                         </Table.Row>
                     </Table.Footer>
                 </Table>
-
             </div>
         </div>
-
     )
 }

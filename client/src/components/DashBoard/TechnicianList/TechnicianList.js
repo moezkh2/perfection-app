@@ -7,7 +7,7 @@ import Decorator from './pictures/gypsum-worker.jpg'
 import Plumber from './pictures/plumber.jpg'
 import Mason from './pictures/mason.jpg'
 import Refrigeration from './pictures/refrigeration.jpg'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const TechnicianList = () => {
     const [open, setOpen] = React.useState(false)
@@ -34,21 +34,21 @@ const TechnicianList = () => {
             {techlist.map((el) => {
                 return (
                     < div class="card" >
-                        <Card> 
-                            <Link to ={`/dashboard/serviceform/${el._id}`}>
-                               {el.Speciality==='Electricity'? <Image src={electrician} wrapped />:null}
-                                { (el.Speciality==='Mechanic')?<Image src={Mechanic} wrapped />:null}
-                                {(el.Speciality==='Decorator')?<Image src={Decorator} wrapped />:null}
-                                {(el.Speciality==='Plumber')?<Image src={Plumber} wrapped />:null }   
-                                {(el.Speciality==='Refrigeration')?<Image src={Refrigeration} wrapped />:null}
-                                {(el.Speciality==='Mason')?<Image src={Mason} wrapped />:null}
-                            </Link> 
+                        <Card>
+                            <Link to={`/dashboard/serviceform/${el._id}`}>
+                                {el.Speciality === 'Electricity' ? <Image src={electrician} wrapped /> : null}
+                                {(el.Speciality === 'Mechanic') ? <Image src={Mechanic} wrapped /> : null}
+                                {(el.Speciality === 'Decorator') ? <Image src={Decorator} wrapped /> : null}
+                                {(el.Speciality === 'Plumber') ? <Image src={Plumber} wrapped /> : null}
+                                {(el.Speciality === 'Refrigeration') ? <Image src={Refrigeration} wrapped /> : null}
+                                {(el.Speciality === 'Mason') ? <Image src={Mason} wrapped /> : null}
+                            </Link>
                             <Card.Content>
                                 <Card.Header>{el.name}</Card.Header>
                                 <Card.Meta>{el.Speciality}</Card.Meta>
-                                <Card.Description>
+                                {/* <Card.Description>
                                     Daniel is a comedian living in Nashville.
-                                </Card.Description>
+                                </Card.Description> */}
                             </Card.Content>
                             <Card.Content extra>
                                 <Modal

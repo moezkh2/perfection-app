@@ -6,29 +6,23 @@ import { getClients, updateAdmin } from '../../Redux/actions/useractions'
 const Clients = () => {
     const load = false
     const clients = useSelector(state => state.userReducer.clients)
-    const dispatch = useDispatch()
-    
+    const dispatch = useDispatch() 
     useEffect(() => {dispatch(getClients())
-    }, [])
-    
+    }, [dispatch]) 
     const [tabelSlice, settabelSlice] = useState()
     setTimeout(() => {
         settabelSlice(clients?.slice(0, 4))
     }, 2000);
-
     const handlePaginationChange = (e, page) => {
         let slice = 4
         if (page.activePage > 1) { slice = 4 * page.activePage }
         settabelSlice(clients?.slice(slice - 4, slice))
     }
-
     if (load) {
         return (<div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
-
             <Dimmer active inverted>
                 <Loader size='large'>Loading</Loader>
             </Dimmer>
-
         </div >)
     }
     if (clients.length === 0) {
@@ -42,7 +36,7 @@ const Clients = () => {
     return (
         <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }} >
             <div className="ServiceOrderedDiv">
-                <h1>Ordered Service</h1>
+                <h1>Clients</h1>
                 <Table celled selectable >
                     <Table.Header>
                         <Table.Row>
@@ -53,7 +47,7 @@ const Clients = () => {
                             <Table.HeaderCell>Action</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
-                    {clients?clients.filter(el=>el.IsApproved===false).map((el) => {
+                    {tabelSlice?tabelSlice.filter(el=>el.IsApproved===false).map((el) => {
                         return (
                             <Table.Body>
                                 <Table.Row>
@@ -93,11 +87,8 @@ const Clients = () => {
                         </Table.Row>
                     </Table.Footer>
                 </Table>
-
             </div>
         </div>
-
     )
 }
-
 export default Clients

@@ -3,7 +3,7 @@ import { Icon } from 'semantic-ui-react'
 import '../DashBoard/homepage/homepage.css'
 import { getClients, getTechnicians, getUser } from '../../Redux/actions/useractions'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllServices,getServiceClient } from '../../Redux/actions/serviceactions'
+import { getAllServices } from '../../Redux/actions/serviceactions'
 import { Doughnut } from 'react-chartjs-2';
 const HomepageAdmin = () => {
     const dispatch = useDispatch()
@@ -12,7 +12,7 @@ const HomepageAdmin = () => {
         dispatch(getClients())
         dispatch(getAllServices())
         dispatch(getTechnicians())
-    }, [])
+    }, [dispatch])
     const clients = useSelector(state => state.userReducer.clients)
     const tech = useSelector(state => state.userReducer.tech)
     const allservice = useSelector(state => state.serviceReducer.allservice)
@@ -22,7 +22,6 @@ const HomepageAdmin = () => {
     const waiting=allservice.filter((el)=>el.Status==='waiting')
     const tab = [approved.length, denied.length,ongoing.length,waiting.length]
     const user = useSelector(state => state.userReducer.user)
-    const service = useSelector(state => state.serviceReducer.service)
 if(user.Role==='admin')
     return (
         <div style={{paddingTop:'80px'}}>
@@ -46,7 +45,6 @@ if(user.Role==='admin')
                         </div>
                     </div>
                     <a href='#' onClick={() => dispatch(getTechnicians())}><p style={{ opacity: "0.5" }}>Update Now</p></a>
-
                 </div>
                 <div className="card-stat">
                     <div className="stat-head">
@@ -67,5 +65,4 @@ if(user.Role==='admin')
     )
     else return <h2>...Loading</h2>
 }
-
 export default HomepageAdmin

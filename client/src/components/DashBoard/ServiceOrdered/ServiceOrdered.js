@@ -1,27 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import './ServiceOrdered.css'
 import { useHistory } from 'react-router-dom'
-import { Table, Pagination, Dropdown, Dimmer, Loader, Message, Modal, Button, Grid, Segment, Form } from 'semantic-ui-react'
+import { Table, Pagination, Dropdown, Dimmer, Loader, Message, Modal, Button, Grid, Segment } from 'semantic-ui-react'
 import ReactStars from "react-rating-stars-component"
 import { useSelector, useDispatch } from 'react-redux'
 import { updateService } from '../../../Redux/actions/serviceactions'
 import { getUser } from '../../../Redux/actions/useractions'
 const ServiceOrdered = () => {
     let history = useHistory()
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
     const service = useSelector(state => state.serviceReducer.service)
     const load = useSelector(state => state.serviceReducer.load)
     const user = useSelector(state => state.userReducer.user);
     const [elprop, setelprop] = useState()
-    useEffect(() => {
-        dispatch(getUser())
-    }, [])
+    useEffect(() => {dispatch(getUser())}, [dispatch])
     const modal = (serv) => {
         console.log(serv, open, "serprops")
         return (
             <Modal
-                /* trigger={id} */
                 onClose={() => setOpen(false)}
                 onOpen={() => setOpen(true)}
                 open={open}
@@ -89,24 +86,17 @@ const ServiceOrdered = () => {
         )
     }
     const color = (el) => {
-        if (el.Status == 'Accepted') return { backgroundColor: 'rgb(243, 141, 73)' }
-        if (el.Status == 'Refused' || el.Status == 'Denied') return { backgroundColor: 'rgb(228, 86, 86)' }
-        if (el.Status == 'Approved') return { backgroundColor: 'rgb(22, 173, 22)' }
-        if (el.Status == 'On Going') return { backgroundColor: 'rgba(235, 231, 23, 0.877)', color: 'black' }
+        if (el.Status === 'Accepted') return { backgroundColor: 'rgb(243, 141, 73)' }
+        if (el.Status === 'Refused' || el.Status === 'Denied') return { backgroundColor: 'rgb(228, 86, 86)' }
+        if (el.Status === 'Approved') return { backgroundColor: 'rgb(22, 173, 22)' }
+        if (el.Status === 'On Going') return { backgroundColor: 'rgba(235, 231, 23, 0.877)', color: 'black' }
     }
     const [tabelSlice, settabelSlice] = useState()
-
-    /*   */
-
-
-    /* const id_service = useSelector(state => state.serviceReducer.service._id) */
-    const [ping, setPing] = useState(false)
     const handlePaginationChange = (e, page) => {
         let slice = 4
         if (page.activePage > 1) { slice = 4 * page.activePage }
         settabelSlice(service.slice(slice - 4, slice))
     }
-
     if (load) {
         return (<div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
             <Dimmer active inverted>
@@ -125,7 +115,7 @@ const ServiceOrdered = () => {
     else return (
         <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }} >
             <div className="ServiceOrderedDiv">
-                <h1>Ordered Service</h1>
+                <h1>Ordered Services</h1>
                 <Table celled selectable>
                     <Table.Header>
                         <Table.Row>
@@ -145,27 +135,27 @@ const ServiceOrdered = () => {
                                     <Table.Cell>{el.Category}</Table.Cell>
                                     <Table.Cell>{el.date}</Table.Cell>
                                     <Table.Cell>
-                                        {(user.Role == 'client') ?
+                                        {(user.Role === 'client') ?
                                             <Dropdown text={el.Status} style={color(el)} active={true}>
                                                 {(el.Status === 'waiting' || el.Status === 'On Going') ?
                                                     <Dropdown.Menu >
-                                                        <Dropdown.Item onClick={(e, data) => { dispatch(updateService(el._id, user, { Status: data.value })); el.Status = data.value; setPing(!ping) }} value='Approved'>Approve</Dropdown.Item>
-                                                        <Dropdown.Item onClick={(e, data) => { dispatch(updateService(el._id, user, { Status: data.value })); el.Status = data.value; setPing(!ping) }} value='Denied'>Deny</Dropdown.Item>
+                                                        <Dropdown.Item onClick={(e, data) => { dispatch(updateService(el._id, user, { Status: data.value })); el.Status = data.value}} value='Approved'>Approve</Dropdown.Item>
+                                                        <Dropdown.Item onClick={(e, data) => { dispatch(updateService(el._id, user, { Status: data.value })); el.Status = data.value}} value='Denied'>Deny</Dropdown.Item>
                                                     </Dropdown.Menu> : null}
                                             </Dropdown> :
                                             <Dropdown text={el.Status} style={color(el)}>
                                                 <Dropdown.Menu>
-                                                    <Dropdown.Item onClick={(e, data) => { dispatch(updateService(el._id, user, { Status: data.value })); el.Status = data.value; setPing(!ping) }} value='On Going' >Accept</Dropdown.Item>
-                                                    <Dropdown.Item onClick={(e, data) => { dispatch(updateService(el._id, user, { Status: data.value })); el.Status = data.value; setPing(!ping) }} value='Refused'>Refuse</Dropdown.Item>
+                                                    <Dropdown.Item onClick={(e, data) => { dispatch(updateService(el._id, user, { Status: data.value })); el.Status = data.value }} value='On Going' >Accept</Dropdown.Item>
+                                                    <Dropdown.Item onClick={(e, data) => { dispatch(updateService(el._id, user, { Status: data.value })); el.Status = data.value }} value='Refused'>Refuse</Dropdown.Item>
                                                 </Dropdown.Menu>
                                             </Dropdown>}
                                     </Table.Cell>
-                                    <Table.Cell>{(user.Role === 'client') ? <ReactStars isHalf={true} edit={true} onChange={(value) => { dispatch(updateService(el._id, user, { Rating: value })); setPing(!ping) }} value={el.Rating} /> :
+                                    <Table.Cell>{(user.Role === 'client') ? <ReactStars isHalf={true} edit={true} onChange={(value) => { dispatch(updateService(el._id, user, { Rating: value }));el.Rating=value }} value={el.Rating} /> :
                                         <ReactStars isHalf={true} edit={false} value={el.Rating} />}
                                     </Table.Cell>
                                 </Table.Row>
                             </Table.Body>)
-                    }) : /* <h2>...loading</h2> */ settabelSlice(service?.slice(0, 4))
+                    }) : settabelSlice(service?.slice(0, 4))
                     }
                     <Table.Footer>
                         <Table.Row>
@@ -177,7 +167,6 @@ const ServiceOrdered = () => {
                                     size='mini'
                                     siblingRange={1}
                                     totalPages={Math.ceil((service?.length) / 4)}
-                                    // Heads up! All items are powered by shorthands, if you want to hide one of them, just pass `null` as value
                                     ellipsisItem={null}
                                     firstItem={undefined}
                                     lastItem={undefined}
@@ -188,13 +177,8 @@ const ServiceOrdered = () => {
                         </Table.Row>
                     </Table.Footer>
                 </Table>
-
             </div>
         </div >
-
     )
 }
-
-
-
 export default ServiceOrdered

@@ -15,7 +15,7 @@ function User() {
   const [useredit, setuseredit] = useState(user);
   useEffect(() => {
     dispatch(getUser())
-  }, [])
+  }, [dispatch])
   useEffect(() => {
     if (msg==="user updated") {
       Swal.fire({
@@ -36,8 +36,7 @@ function User() {
         dispatch(alerte())
       })
     }
-  }, [errors, msg])
-  /* dispatch(getServiceClient(user._id, user.Role)) */
+  }, [errors, msg,dispatch])
   const [password, setpassword] = useState('')
   const options = [
     { key: 'c', text: 'Electricity', value: 'Electricity' },
@@ -51,7 +50,9 @@ function User() {
       <div >
         <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
           <div class="card" style={{ width: "500px", height: '500px' }}>
-            <div class="bannerclient"><img className='svg' src='https://cdn1.iconfinder.com/data/icons/customer-and-service-3/512/7-512.png'/>
+            <div class="bannerclient">{user.Role==='client'?<img className='svg' alt='' src='https://cdn1.iconfinder.com/data/icons/customer-and-service-3/512/7-512.png'/>:
+            <img className='svg' alt='' src='https://thumbs.dreamstime.com/b/admin-sign-laptop-icon-stock-vector-166205404.jpg'/>
+            }
               </div>
             <h2 class="name">{user.name || "name"}</h2>
             {(user.Role === 'client') ?<div class="title" style={{fontSize:'20px'}}>Client</div>:<div class="title" style={{fontSize:'20px'}}>Admin</div>}
@@ -175,7 +176,6 @@ function User() {
                 label='Phone'
                 placeholder='Phone'
                 defaultValue={user.phone}
-
               />
               <Form.Select
                 required
@@ -185,7 +185,6 @@ function User() {
                 defaultValue={user.Speciality}
                 onChange={(e, value) => { setuseredit({ ...useredit, Speciality: value?.value }) }}
               />
-
             </Form.Group>
             <br /><br />
             <Form.Group widths='equal'>
@@ -214,11 +213,9 @@ function User() {
     );
   } else {
     return (<div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
-
       <Dimmer active inverted>
         <Loader size='large'>Loading</Loader>
       </Dimmer>
-
     </div >)
   }
 }
