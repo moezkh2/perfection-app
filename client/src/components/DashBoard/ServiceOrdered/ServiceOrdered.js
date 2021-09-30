@@ -4,17 +4,20 @@ import { useHistory } from 'react-router-dom'
 import { Table, Pagination, Dropdown, Dimmer, Loader, Message, Modal, Button, Grid, Segment } from 'semantic-ui-react'
 import ReactStars from "react-rating-stars-component"
 import { useSelector, useDispatch } from 'react-redux'
-import { updateService } from '../../../Redux/actions/serviceactions'
+import { chatt, updateService } from '../../../Redux/actions/serviceactions'
 import { getUser } from '../../../Redux/actions/useractions'
+import { Chat } from '../Chat/Chat'
 const ServiceOrdered = () => {
     let history = useHistory()
     const [open, setOpen] = useState(false)
+    const Show = useSelector(state => state.serviceReducer.chat.show)
+
     const dispatch = useDispatch()
     const service = useSelector(state => state.serviceReducer.service)
     const load = useSelector(state => state.serviceReducer.load)
     const user = useSelector(state => state.userReducer.user);
     const [elprop, setelprop] = useState()
-    useEffect(() => {dispatch(getUser())}, [dispatch])
+    useEffect(() => { dispatch(getUser()) }, [dispatch])
     const modal = (serv) => {
         console.log(serv, open, "serprops")
         return (
@@ -85,6 +88,17 @@ const ServiceOrdered = () => {
             </Modal >
         )
     }
+    /* const chatBox = (serv) => {
+        console.log(serv)
+        if (Show) {
+            return (
+                <div>
+                    <Chat serv={serv}></Chat>
+                </div>
+            );
+        }
+
+    } */
     const color = (el) => {
         if (el.Status === 'Accepted') return { backgroundColor: 'rgb(243, 141, 73)' }
         if (el.Status === 'Refused' || el.Status === 'Denied') return { backgroundColor: 'rgb(228, 86, 86)' }
@@ -119,18 +133,19 @@ const ServiceOrdered = () => {
                 <Table celled selectable>
                     <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell>Command Id</Table.HeaderCell>
+                            {(user.Role === 'client') ? <Table.HeaderCell>Technician Name</Table.HeaderCell> : <Table.HeaderCell>Client Name</Table.HeaderCell>}
                             <Table.HeaderCell>Category</Table.HeaderCell>
                             <Table.HeaderCell>Date</Table.HeaderCell>
                             <Table.HeaderCell>Status</Table.HeaderCell>
                             <Table.HeaderCell>Rating</Table.HeaderCell>
+                            <Table.HeaderCell>Chat</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     {tabelSlice ? tabelSlice.map((el) => {
                         return (
                             <Table.Body>
                                 <Table.Row >
-                                    <Table.Cell onClick={(e) => { setOpen(true); setelprop(el) }}>{(el._id)}</Table.Cell>
+                                    {(user.Role === 'client') ? <Table.Cell onClick={(e) => { setOpen(true); setelprop(el) }}>{(el.TechnicientId.name)}</Table.Cell> : <Table.Cell onClick={(e) => { setOpen(true); setelprop(el) }}>{(el.ClientId.name)}</Table.Cell>}
                                     {modal(elprop)}
                                     <Table.Cell>{el.Category}</Table.Cell>
                                     <Table.Cell>{el.date}</Table.Cell>
@@ -139,8 +154,8 @@ const ServiceOrdered = () => {
                                             <Dropdown text={el.Status} style={color(el)} active={true}>
                                                 {(el.Status === 'waiting' || el.Status === 'On Going') ?
                                                     <Dropdown.Menu >
-                                                        <Dropdown.Item onClick={(e, data) => { dispatch(updateService(el._id, user, { Status: data.value })); el.Status = data.value}} value='Approved'>Approve</Dropdown.Item>
-                                                        <Dropdown.Item onClick={(e, data) => { dispatch(updateService(el._id, user, { Status: data.value })); el.Status = data.value}} value='Denied'>Deny</Dropdown.Item>
+                                                        <Dropdown.Item onClick={(e, data) => { dispatch(updateService(el._id, user, { Status: data.value })); el.Status = data.value }} value='Approved'>Approve</Dropdown.Item>
+                                                        <Dropdown.Item onClick={(e, data) => { dispatch(updateService(el._id, user, { Status: data.value })); el.Status = data.value }} value='Denied'>Deny</Dropdown.Item>
                                                     </Dropdown.Menu> : null}
                                             </Dropdown> :
                                             <Dropdown text={el.Status} style={color(el)}>
@@ -150,9 +165,10 @@ const ServiceOrdered = () => {
                                                 </Dropdown.Menu>
                                             </Dropdown>}
                                     </Table.Cell>
-                                    <Table.Cell>{(user.Role === 'client') ? <ReactStars isHalf={true} edit={true} onChange={(value) => { dispatch(updateService(el._id, user, { Rating: value }));el.Rating=value }} value={el.Rating} /> :
+                                    <Table.Cell>{(user.Role === 'client') ? <ReactStars isHalf={true} edit={true} onChange={(value) => { dispatch(updateService(el._id, user, { Rating: value })); el.Rating = value }} value={el.Rating} /> :
                                         <ReactStars isHalf={true} edit={false} value={el.Rating} />}
                                     </Table.Cell>
+                                    <Table.Cell><Button onClick={() => { dispatch(chatt(!Show, el)) }}>Chat</Button></Table.Cell>
                                 </Table.Row>
                             </Table.Body>)
                     }) : settabelSlice(service?.slice(0, 4))
@@ -177,7 +193,9 @@ const ServiceOrdered = () => {
                         </Table.Row>
                     </Table.Footer>
                 </Table>
+                {/* {chatBox(elprop)} */}
             </div>
+
         </div >
     )
 }

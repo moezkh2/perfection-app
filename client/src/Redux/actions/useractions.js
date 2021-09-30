@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { UPDATE_USER,FAIL, LOAD, USER_SUCCESS, LOGIN_USER_SUCCESS, GET_USER_SUCCESS,GET_TECHNICIAN_LIST,RESET,GET_ALL_CLIENTS, GET_ALL_TECH } from '../const'
+import { UPDATE_USER, FAIL, LOAD, USER_SUCCESS, LOGIN_USER_SUCCESS, GET_USER_SUCCESS, GET_TECHNICIAN_LIST, RESET, GET_ALL_CLIENTS, GET_ALL_TECH } from '../const'
 import { getServiceClient } from './serviceactions'
+import { useSelector } from 'react-redux'
 export const registerUser = (user, history) => async dispatch => {
     dispatch({ type: LOAD })
     try {
@@ -13,12 +14,13 @@ export const registerUser = (user, history) => async dispatch => {
     }
 }
 export const loginUser = (user, history) => async dispatch => {
+
     dispatch({ type: LOAD })
     try {
+
         let result = await axios.post('/user/login', user)
         dispatch({ type: USER_SUCCESS, payload: result.data })
-        console.log(result.data.user.Role)
-        if(result.data.user.Role==='admin')history.push("/dashboardadmin/")
+        if (result.data.user.Role === 'admin') history.push("/dashboardadmin/")
         else history.push("/dashboard/")
     } catch (error) {
         console.log(error)
@@ -34,7 +36,7 @@ export const getUser = () => async dispatch => {
             }
         })
         dispatch({ type: GET_USER_SUCCESS, payload: result.data })
-        dispatch(getServiceClient(result.data.user._id,result.data.user.Role))
+        dispatch(getServiceClient(result.data.user._id, result.data.user.Role))
     } catch (error) {
         console.log(error)
         dispatch({ type: FAIL, payload: error.response.data })
@@ -42,8 +44,8 @@ export const getUser = () => async dispatch => {
 }
 export const updateUser = (user) => async dispatch => {
     try {
-        
-        let result= await axios.put('/user/update',user,{
+
+        let result = await axios.put('/user/update', user, {
             headers: {
                 'Authorization': localStorage.getItem("token")
             }
@@ -56,7 +58,7 @@ export const updateUser = (user) => async dispatch => {
     }
 }
 
-export const getTechnicianList=(technician)=>async dispatch=>{
+export const getTechnicianList = (technician) => async dispatch => {
     dispatch({ type: LOAD })
     try {
         let result = await axios.get(`/user/getTechnicianList/${technician}`, {
@@ -70,7 +72,7 @@ export const getTechnicianList=(technician)=>async dispatch=>{
     }
 
 }
-export const getTechnicians=()=>async dispatch=>{
+export const getTechnicians = () => async dispatch => {
     dispatch({ type: LOAD })
     try {
         let result = await axios.get(`/user/getttechnicianlist/all`, {
@@ -83,7 +85,7 @@ export const getTechnicians=()=>async dispatch=>{
         dispatch({ type: FAIL, payload: error.response.data })
     }
 }
-export const getClients=()=>async dispatch=>{
+export const getClients = () => async dispatch => {
     dispatch({ type: LOAD })
     try {
         let result = await axios.get(`/user/getclients/all`, {
@@ -93,17 +95,17 @@ export const getClients=()=>async dispatch=>{
         });
         dispatch({ type: GET_ALL_CLIENTS, payload: result.data })
     } catch (error) {
-        dispatch({ type: FAIL, payload: error.response.data})
+        dispatch({ type: FAIL, payload: error.response.data })
     }
 }
-export const toggle = () => {return { type: LOGIN_USER_SUCCESS }}
-export const alerte =()=>{
-   return {type:RESET}
+export const toggle = () => { return { type: LOGIN_USER_SUCCESS } }
+export const alerte = () => {
+    return { type: RESET }
 }
-export const deleteTechnician=(id)=>async dispatch=>{
-    dispatch({type:LOAD})
+export const deleteTechnician = (id) => async dispatch => {
+    dispatch({ type: LOAD })
     try {
-        let result=await axios.delete(`/user/technician/delete/${id}`,{
+        let result = await axios.delete(`/user/technician/delete/${id}`, {
             headers: {
                 'Authorization': localStorage.getItem("token")
             }
@@ -113,10 +115,10 @@ export const deleteTechnician=(id)=>async dispatch=>{
         dispatch({ type: FAIL, payload: error.response.data })
     }
 }
-export const deleteClient=(id)=>async dispatch=>{
-    dispatch({type:LOAD})
+export const deleteClient = (id) => async dispatch => {
+    dispatch({ type: LOAD })
     try {
-        let result=await axios.delete(`/user/client/delete/${id}`,{
+        let result = await axios.delete(`/user/client/delete/${id}`, {
             headers: {
                 'Authorization': localStorage.getItem("token")
             }
@@ -128,15 +130,15 @@ export const deleteClient=(id)=>async dispatch=>{
 }
 export const updateAdmin = (user) => async dispatch => {
     try {
-        
-        let result= await axios.put('/user/adminupdate',user,{
+
+        let result = await axios.put('/user/adminupdate', user, {
             headers: {
                 'Authorization': localStorage.getItem("token")
             }
         })
-            dispatch(getUser())
-            dispatch(getTechnicians())
-            dispatch(getClients())
+        dispatch(getUser())
+        dispatch(getTechnicians())
+        dispatch(getClients())
     } catch (error) {
         console.log(error)
         dispatch({ type: FAIL, payload: error.response.data })

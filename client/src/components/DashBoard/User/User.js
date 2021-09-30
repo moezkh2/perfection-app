@@ -3,7 +3,7 @@ import "./User.css";
 import 'semantic-ui-css/semantic.min.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { Button, Form, Input, Dimmer, Loader } from 'semantic-ui-react'
-import { getUser, updateUser,alerte } from '../../../Redux/actions/useractions'
+import { getUser, updateUser, alerte } from '../../../Redux/actions/useractions'
 import Swal from "sweetalert2";
 function User() {
   let user = useSelector(state => state.userReducer.user);
@@ -17,7 +17,7 @@ function User() {
     dispatch(getUser())
   }, [dispatch])
   useEffect(() => {
-    if (msg==="user updated") {
+    if (msg === "user updated") {
       Swal.fire({
         icon: 'success',
         title: "user updated",
@@ -36,7 +36,7 @@ function User() {
         dispatch(alerte())
       })
     }
-  }, [errors, msg,dispatch])
+  }, [errors, msg, dispatch])
   const [password, setpassword] = useState('')
   const options = [
     { key: 'c', text: 'Electricity', value: 'Electricity' },
@@ -50,12 +50,12 @@ function User() {
       <div >
         <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
           <div class="card" style={{ width: "500px", height: '500px' }}>
-            <div class="bannerclient">{user.Role==='client'?<img className='svg' alt='' src='https://cdn1.iconfinder.com/data/icons/customer-and-service-3/512/7-512.png'/>:
-            <img className='svg' alt='' src='https://thumbs.dreamstime.com/b/admin-sign-laptop-icon-stock-vector-166205404.jpg'/>
+            <div class="bannerclient">{user.Role === 'client' ? <img className='svg' alt='' src='https://cdn1.iconfinder.com/data/icons/customer-and-service-3/512/7-512.png' /> :
+              <img className='svg' alt='' src='https://thumbs.dreamstime.com/b/admin-sign-laptop-icon-stock-vector-166205404.jpg' />
             }
-              </div>
+            </div>
             <h2 class="name">{user.name || "name"}</h2>
-            {(user.Role === 'client') ?<div class="title" style={{fontSize:'20px'}}>Client</div>:<div class="title" style={{fontSize:'20px'}}>Admin</div>}
+            {(user.Role === 'client') ? <div class="title" style={{ fontSize: '20px' }}>Client</div> : <div class="title" style={{ fontSize: '20px' }}>Admin</div>}
             <div class="actions">{(user.Role === 'client') ?
               <div class="follow-info">
                 <h2><a href="#"><span>{Math.trunc(tasks.length / 10) || "1"}</span><small>Level</small></a></h2>
@@ -72,7 +72,7 @@ function User() {
                   <Form.Field
                     name="name"
                     error={errors ? errors.msg.name : false}
-                    onChange={(e) => setuseredit({ ...useredit, [e.target.name]: e.target.value })}
+                    onChange={(e) => setuseredit({ ...useredit, [e.target?.name]: e.target.value })}
                     control={Input}
                     label='Name'
                     placeholder='Name'
@@ -132,9 +132,9 @@ function User() {
     return (
       <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
         <div class="card" style={{ width: "500px", height: '500px' }}>
-          <div className="banner"><img className='svg' src='https://image.freepik.com/free-vector/cartoon-technician-repairman_184560-20.jpg'/></div>
+          <div className="banner"><img className='svg' src='https://image.freepik.com/free-vector/cartoon-technician-repairman_184560-20.jpg' /></div>
           <h2 className="name">{user.name || "name"}</h2>
-          <div class="title" style={{fontSize:'20px'}}>Technician</div>
+          <div class="title" style={{ fontSize: '20px' }}>Technician</div>
           <div class="actions">
             <div class="follow-info">
               <h2><a href=""><span>{Math.trunc(tasks.length / 10) || 1}</span><small>Level</small></a></h2>
@@ -206,7 +206,7 @@ function User() {
               />
             </Form.Group>
             <br /><br />
-            <Form.Field ><Button content='Update profile' primary onClick={() => { (!useredit.Speciality) ? alert('enter speciality') : dispatch(updateUser({ ...useredit, email: user.email,Level:Math.trunc(tasks.length / 10) || 1,NbrOfTasks:tasks.length })) }} /></Form.Field>
+            <Form.Field ><Button content='Update profile' primary onClick={() => { (!useredit.Speciality) ? alert('enter speciality') : dispatch(updateUser({ ...useredit, email: user.email, Level: Math.trunc(tasks.length / 10) || 1, NbrOfTasks: tasks.length })) }} /></Form.Field>
           </Form>
         </div>
       </div>

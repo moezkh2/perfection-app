@@ -13,6 +13,12 @@ const TechnicianList = () => {
     const [open, setOpen] = React.useState(false)
     const techlist = useSelector(state => state.userReducer.techlist)
     const load = useSelector(state => state.userReducer.load)
+    const service = useSelector(state => state.serviceReducer.service)
+    let rate = service.filter((el) => el.Rating)
+    const res = rate.reduce((total, current) => total + current)
+    console.log(res, rate)
+    var level = Math.trunc(service.length + res / 2)
+
     if (load) {
         return (<div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
 
@@ -46,9 +52,9 @@ const TechnicianList = () => {
                             <Card.Content>
                                 <Card.Header>{el.name}</Card.Header>
                                 <Card.Meta>{el.Speciality}</Card.Meta>
-                                {/* <Card.Description>
-                                    Daniel is a comedian living in Nashville.
-                                </Card.Description> */}
+                                <Card.Description>
+                                    Level:1
+                                </Card.Description>
                             </Card.Content>
                             <Card.Content extra>
                                 <Modal

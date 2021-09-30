@@ -1,15 +1,15 @@
 const mongoose = require('mongoose')
-const userSchema= new mongoose.Schema({
-    name:{type:String,required:true},
-    email:{type:String,required:true},
-    phone:{type:String,required:false},
-    address:{type:String,required:false},
-    PassWord: {type:String,required:true},
-    NbrOfTasks: {type:Number,required:false},
-    Speciality: {type:String,required:false},
-    Role: {type:String,required:true},
-    Level: {type:Number,required:false},
-    IsApproved:{type:Boolean,required:false,default:false},
-    IsBlocked:{type:Boolean,required:false,default:false}
+const userSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: false },
+    address: { type: String, required: false },
+    PassWord: { type: String, required: true },
+    NbrOfTasks: { type: Number, required: false },
+    Speciality: { type: String, required: false },
+    Role: { type: String, required: true },
+    Level: { type: Number, required: false, default: 1 },
+    IsApproved: { type: Boolean, required: false, default: false },
+    IsBlocked: { type: Boolean, required: false, default: false }
 })
-module.exports= mongoose.model('user',userSchema)
+module.exports = mongoose.model('user', userSchema)

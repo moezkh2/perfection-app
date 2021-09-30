@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { FAIL, LOAD, SERVICE_SUCCESS, FAIL_SERVICE, RESET, GET_ALL_SERVICE } from '../const'
+import { FAIL, LOAD, SERVICE_SUCCESS, FAIL_SERVICE, RESET, GET_ALL_SERVICE, CHAT_SHOW } from '../const'
 export const getServiceClient = (id, user) => async dispatch => {
     dispatch({ type: LOAD })
     try {
@@ -44,4 +44,7 @@ export const getAllServices = () => async dispatch => {
     } catch (error) {
         dispatch({ type: FAIL })
     }
+}
+export const chatt = (show, chat) => {
+    return ({ type: CHAT_SHOW, payload: { show: show, chat: chat } })
 }
