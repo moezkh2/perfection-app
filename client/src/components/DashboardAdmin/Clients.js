@@ -1,18 +1,19 @@
-import {React,useEffect,useState} from 'react'
-import { useSelector,useDispatch } from 'react-redux'
+import { React, useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import '../DashBoard/ServiceOrdered/ServiceOrdered.css'
 import { Table, Pagination, Dimmer, Loader, Message, Button } from 'semantic-ui-react'
 import { getClients, updateAdmin } from '../../Redux/actions/useractions'
 const Clients = () => {
     const load = false
     const clients = useSelector(state => state.userReducer.clients)
-    const dispatch = useDispatch() 
-    useEffect(() => {dispatch(getClients())
-    }, [dispatch]) 
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getClients())
+    }, [dispatch])
     const [tabelSlice, settabelSlice] = useState()
-    setTimeout(() => {
-        settabelSlice(clients?.slice(0, 4))
-    }, 2000);
+    /*  setTimeout(() => {
+         settabelSlice(clients?.slice(0, 4))
+     }, 2000); */
     const handlePaginationChange = (e, page) => {
         let slice = 4
         if (page.activePage > 1) { slice = 4 * page.activePage }
@@ -47,7 +48,7 @@ const Clients = () => {
                             <Table.HeaderCell>Action</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
-                    {tabelSlice?tabelSlice.filter(el=>el.IsApproved===false).map((el) => {
+                    {tabelSlice ? tabelSlice.filter(el => el.IsApproved === false).map((el) => {
                         return (
                             <Table.Body>
                                 <Table.Row>
@@ -56,16 +57,16 @@ const Clients = () => {
                                     <Table.Cell>{el.address}</Table.Cell>
                                     <Table.Cell>{el.Speciality}</Table.Cell>
                                     <Table.Cell textAlign="center">
-                                        <Button.Group>{(!el.IsBlocked)?
-                                            <Button positive onClick={()=>{dispatch(updateAdmin({...el,IsBlocked:true}))}}>Block</Button>:<Button negative onClick={()=>{dispatch(updateAdmin({...el,IsBlocked:false}))}}>Unblock</Button>
-                                            }
+                                        <Button.Group>{(!el.IsBlocked) ?
+                                            <Button positive onClick={() => { dispatch(updateAdmin({ ...el, IsBlocked: true })) }}>Block</Button> : <Button negative onClick={() => { dispatch(updateAdmin({ ...el, IsBlocked: false })) }}>Unblock</Button>
+                                        }
                                             <Button.Or text='OR' />
-                                            <Button negative onClick={()=>{dispatch(updateAdmin(el._id))}}>Delete</Button>
+                                            <Button negative onClick={() => { dispatch(updateAdmin(el._id)) }}>Delete</Button>
                                         </Button.Group>
                                     </Table.Cell>
                                 </Table.Row>
                             </Table.Body>)
-                    }):<h2>...loading</h2>}
+                    }) : settabelSlice(clients?.slice(0, 4))}
                     <Table.Footer>
                         <Table.Row>
                             <Table.HeaderCell colSpan='4'>

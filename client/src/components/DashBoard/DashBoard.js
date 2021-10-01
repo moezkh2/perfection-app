@@ -12,7 +12,8 @@ const DashBoard = ({ match }) => {
     return (
         <div>
             <DashNav></DashNav>
-            <div className="cha">            <Chat1 ></Chat1>
+            <div className="cha">
+                <Chat1 ></Chat1>
             </div>
             <Switch>
                 <Route exact path={`${match.path}`} component={Homepage} />

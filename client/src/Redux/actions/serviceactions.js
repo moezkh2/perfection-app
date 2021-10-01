@@ -19,7 +19,7 @@ export const addService = (service, user) => async dispatch => {
         dispatch(getServiceClient(user._id, user.Role))
     } catch (error) {
         console.log(error)
-        dispatch({ type: FAIL_SERVICE, payload: error.response.data.msg })
+        dispatch({ type: FAIL_SERVICE, payload: error })
 
     }
 }

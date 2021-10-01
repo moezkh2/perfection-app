@@ -1,18 +1,19 @@
-import { getTechnicians,updateAdmin } from '../../Redux/actions/useractions'
-import {React,useEffect,useState} from 'react'
-import { useSelector,useDispatch } from 'react-redux'
+import { getTechnicians, updateAdmin } from '../../Redux/actions/useractions'
+import { React, useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import '../DashBoard/ServiceOrdered/ServiceOrdered.css'
 import { Table, Pagination, Dimmer, Loader, Message, Button } from 'semantic-ui-react'
 export const Technicians = () => {
     const load = false
     const tech = useSelector(state => state.userReducer.tech)
     const dispatch = useDispatch()
-    useEffect(() => {dispatch(getTechnicians())
+    useEffect(() => {
+        dispatch(getTechnicians())
     }, [dispatch])
     const [tabelSlice, settabelSlice] = useState()
-    setTimeout(() => {
+    /* setTimeout(() => {
         settabelSlice(tech?.slice(0, 4))
-    }, 2000);
+    }, 2000); */
     const handlePaginationChange = (e, page) => {
         let slice = 4
         if (page.activePage > 1) { slice = 4 * page.activePage }
@@ -23,7 +24,8 @@ export const Technicians = () => {
             <Dimmer active inverted>
                 <Loader size='large'>Loading</Loader>
             </Dimmer>
-        </div >)}
+        </div >)
+    }
     if (tech?.length === 0) {
         return (<div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
             <Message negative>
@@ -46,7 +48,7 @@ export const Technicians = () => {
                             <Table.HeaderCell>Action</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
-                    {tabelSlice?tabelSlice.filter(el=>el.IsApproved===true||el.Speciality).map((el) => {
+                    {tabelSlice ? tabelSlice.filter(el => el.IsApproved === true || el.Speciality).map((el) => {
                         return (
                             <Table.Body>
                                 <Table.Row>
@@ -55,16 +57,16 @@ export const Technicians = () => {
                                     <Table.Cell>{el.address}</Table.Cell>
                                     <Table.Cell>{el.Speciality}</Table.Cell>
                                     <Table.Cell textAlign="center">
-                                        <Button.Group>{(!el.IsBlocked)?
-                                            <Button positive onClick={()=>{dispatch(updateAdmin({...el,IsBlocked:true}))}}>Block</Button>:<Button negative onClick={()=>{dispatch(updateAdmin({...el,IsBlocked:false}))}}>Unblock</Button>
-                                            }
+                                        <Button.Group>{(!el.IsBlocked) ?
+                                            <Button positive onClick={() => { dispatch(updateAdmin({ ...el, IsBlocked: true })) }}>Block</Button> : <Button negative onClick={() => { dispatch(updateAdmin({ ...el, IsBlocked: false })) }}>Unblock</Button>
+                                        }
                                             <Button.Or text='OR' />
-                                            <Button negative onClick={()=>{dispatch(updateAdmin(el._id))}}>Delete</Button>
+                                            <Button negative onClick={() => { dispatch(updateAdmin(el._id)) }}>Delete</Button>
                                         </Button.Group>
                                     </Table.Cell>
                                 </Table.Row>
                             </Table.Body>)
-                    }):<h1>...loading</h1>}
+                    }) : settabelSlice(tech?.slice(0, 4))}
                     <Table.Footer>
                         <Table.Row>
                             <Table.HeaderCell colSpan='4'>

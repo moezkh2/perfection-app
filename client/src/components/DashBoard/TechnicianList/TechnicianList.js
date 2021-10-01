@@ -15,10 +15,10 @@ const TechnicianList = () => {
     const load = useSelector(state => state.userReducer.load)
     const service = useSelector(state => state.serviceReducer.service)
     let rate = service.filter((el) => el.Rating)
-    const res = rate.reduce((total, current) => total + current)
+    /* const res = rate.reduce((total, current) => total + current)
     console.log(res, rate)
     var level = Math.trunc(service.length + res / 2)
-
+ */
     if (load) {
         return (<div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", backgroundColor: "#f4f3ef", paddingTop: "3rem", height: "100%", width: "100%" }}>
 
@@ -53,7 +53,7 @@ const TechnicianList = () => {
                                 <Card.Header>{el.name}</Card.Header>
                                 <Card.Meta>{el.Speciality}</Card.Meta>
                                 <Card.Description>
-                                    Level:1
+                                    Level:{el.Level}
                                 </Card.Description>
                             </Card.Content>
                             <Card.Content extra>

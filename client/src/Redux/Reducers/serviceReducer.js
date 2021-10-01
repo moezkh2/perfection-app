@@ -5,7 +5,15 @@ const initialState = {
     load: false,
     msg: null,
     allservice: [],
-    chat: { show: false, chat: [] }
+    chat: {
+        show: false, chat: [{
+            author: "author",
+            type: 'text',
+            data: {
+                text: 'hi'
+            }
+        }]
+    }
 }
 export const serviceReducer = (state = initialState, { type, payload }) => {
     switch (type) {

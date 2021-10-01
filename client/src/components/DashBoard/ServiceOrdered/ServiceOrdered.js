@@ -83,7 +83,7 @@ const ServiceOrdered = () => {
                 </Modal.Content >
                 <Modal.Actions>
                     <Button onClick={() => setOpen(false)}>Cancel</Button>
-                    <Button primary onClick={() => { history.push("/dashboard/chat", { serv: serv }) }}>Reply</Button>
+                    {/*  <Button primary onClick={() => { history.push("/dashboard/chat", { serv: serv }) }}>Reply</Button> */}
                 </Modal.Actions>
             </Modal >
         )
